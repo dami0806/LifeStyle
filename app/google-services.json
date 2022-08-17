@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "923779766075",
+    "project_id": "lifestyle-37d27",
+    "storage_bucket": "lifestyle-37d27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923779766075:android:df2ae4c560ab8fbd3ec91e",
+        "android_client_info": {
+          "package_name": "com.dami.lifestyle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "923779766075-bn3lob13h27bpmr6tbuirgobmpads8m2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAigsg8NZwP_ghimTs-NNZP2qTY6uBsELs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "923779766075-bn3lob13h27bpmr6tbuirgobmpads8m2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
