@@ -2,13 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
     //이미지 텍스트 북마크 순서
     <ImageView
+        android:id="@+id/imageArea"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:src="@drawable/main_icon_oneroom"/>
     <TextView
+        android:id="@+id/textArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
@@ -16,6 +19,7 @@
         android:text="Text"
         android:gravity="center"/>
     <ImageView
+        android:id="@+id/bookmarkArea"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
         android:layout_width="30dp"
