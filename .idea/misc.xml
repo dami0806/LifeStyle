@@ -6,6 +6,7 @@
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/drawable-v24/backgournd_radius.xml" value="0.1" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/drawable-v24/backgournd_radius_yellow.xml" value="0.1" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/drawable/content_rv_item.xml" value="0.1" />
+        <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_board_wrtie.xml" value="0.13634444913465596" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_content_list.xml" value="0.1" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_intro.xml" value="0.17685185185185184" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_login.xml" value="0.1" />
@@ -18,7 +19,7 @@
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/fragment_bookmark.xml" value="0.16" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/fragment_store.xml" value="0.1" />
-        <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/fragment_talk.xml" value="0.176" />
+        <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/fragment_talk.xml" value="0.152" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/fragment_tip.xml" value="0.144" />
       </map>
     </option>

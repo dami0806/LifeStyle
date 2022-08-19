@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.dami.lifestyle">
 
-    <uses-permission android:name="android.permission.INTERNET" /> //glide 사용하려고
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".auth.GlobalApplication"
@@ -19,11 +19,14 @@
         tools:ignore="Instantiatable"
         tools:targetApi="31">
         <activity
+            android:name=".board.BoardWrtieActivity"
+            android:exported="false" />
+        <activity
             android:name=".contentsList.ContentListActivity"
             android:exported="false" />
         <activity
             android:name=".auth.IntroActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -48,6 +51,7 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
