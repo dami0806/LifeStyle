@@ -12,12 +12,24 @@ import com.dami.lifestyle.R
 
 class ContentRVAdapter(val context: Context, val items: ArrayList<ContentModel>) :
     RecyclerView.Adapter<ContentRVAdapter.Viewholder>() {
+ //webview만들기
+    interface ItemClick{ //click시 웹으로 이동
+        fun onClick(view:View, position: Int)
+    }
+    var itemClick:ItemClick?= null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentRVAdapter.Viewholder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.content_rv_item, parent, false)
         return Viewholder(v)
     }
 
     override fun onBindViewHolder(holder: ContentRVAdapter.Viewholder, position: Int) {
+        if(itemClick!=null){
+            holder.itemView.setOnClickListener{v->
+                itemClick?.onClick(v, position)
+            }
+        }
+
         holder.bindItems(items[position])
     }
 
