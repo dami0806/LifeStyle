@@ -3,9 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:orientation="vertical"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
     >
     //이미지 텍스트 북마크 순서
     <ImageView
+        android:scaleType="fitXY"
         android:id="@+id/imageArea"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -15,15 +18,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="15sp"
-        android:textStyle="bold"
         android:text="Text"
+        android:textColor="@color/black"
         android:gravity="center"/>
     <ImageView
         android:id="@+id/bookmarkArea"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:src="@drawable/bookmark_white"/>
 
 
