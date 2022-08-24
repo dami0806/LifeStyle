@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.dami.lifestyle.MainActivity
 import com.dami.lifestyle.R
+import com.dami.lifestyle.contentsList.ContentListActivity
 import com.dami.lifestyle.databinding.ActivityIntroBinding
 import com.google.android.gms.common.api.Api
 import com.google.firebase.auth.FirebaseAuth
@@ -102,7 +103,24 @@ class IntroActivity : AppCompatActivity() {
             else if (token != null) {
                 Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this,MainActivity::class.java)
-                startActivity(intent)
+
+                UserApiClient.instance.me { user, error ->
+
+                    //사용자 정보
+                    var userId = user?.id //type: Long
+
+
+                    if (userId != null) {
+                        intent.putExtra("user_id", userId.toLong()) //type: Long
+                        startActivity(intent)
+                        Log.d("이거2",userId.toString())
+                    }
+                    else {
+                        Log.d("DEBUG","user info: null")
+                    }
+                }
+
+
             }
         }
 

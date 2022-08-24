@@ -1,6 +1,5 @@
 package com.dami.lifestyle.contentsList
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,15 +7,11 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.dami.lifestyle.R
-import com.google.firebase.database.*
-import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.kakao.sdk.user.UserApiClient
 
 class ContentListActivity : AppCompatActivity() {
     var db = Firebase.firestore
@@ -24,15 +19,15 @@ class ContentListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_content_list)
 
-        val database = Firebase.database
+        val database : FirebaseDatabase = FirebaseDatabase.getInstance()
         val myRef = database.getReference("contents")
-        myRef.setValue(
+        /*myRef.setValue(
             ContentModel(
                 "title1",
                 "https://postfiles.pstatic.net/MjAyMjA4MTdfMjMz/MDAxNjYwNzI3Mjg1NjE5.ZX4YzSh_sfNojjZ-Rj_V-q7F1VMz52eBsAZ-D2c5kNEg.XTvQeMwH4PwtkUklpOflZaW1GAt-Rc8QqX6I0r4dCt4g.JPEG.dami0804/KakaoTalk_20220817_180616358.jpg?type=w773",
                 "https://blog.naver.com/dami0804/222850928512"
             )
-        )
+        )*/
 
         val rv: RecyclerView = findViewById(R.id.rv)
         val items = ArrayList<ContentModel>()
@@ -94,7 +89,10 @@ class ContentListActivity : AppCompatActivity() {
             )
         )
 
-        val rvAdapter = ContentRVAdapter(baseContext, items)
+
+
+
+            val rvAdapter = ContentRVAdapter(baseContext, items)
         rv.adapter = rvAdapter
         //rv.layoutManager = LinearLayoutManager(this) 은 한줄로
         //2줄로
@@ -110,41 +108,37 @@ class ContentListActivity : AppCompatActivity() {
             }
 
         }
-//commit
 
 
+      /*  var userId: Long? =getLong("user_Id")
+        var gender: String? = arguments?.getString("user_gender")  //작성자 성별*/
+        var userId = intent.getLongExtra("user_Id",0)
 
-      /* data class Post(
-            var uid: String? = "",
-            var author: String? = "",
-            var imageUrl: String? = "",
-            var title: String? = "",
-            var webUrl: String? = ""
-        ){
+        Log.d("이거",userId.toString())
+//1.해시맵 형태로 데이터베이스에 add
+        val share = hashMapOf(
+            "kakaoUserId" to userId)
 
-
-            val share = hashMapOf(
-                "uid" to uid,
-                "author" to author,
-                "title" to title,
-                "imageUrl" to imageUrl,
-                "webUrl" to webUrl
-            )*/
-
-
-       }
-
-
-            //DB에 저장될 새 글 데이터
-            //imageUrl title webUrl
-
-// Read from the database
-
-
+        addShareData("memo", share)
+       }  //DB에 데이터 추가
+    private fun addShareData(collectionPath: String, share: HashMap<String, Long>) {
+        //DB에 문서 추가 -
+        db.collection(collectionPath)
+            .add(share)
+            .addOnSuccessListener { documentReference ->
+                // 제출 성공 시
+                Log.d(
+                    "FIREBASE",
+                    "DocumentSnapshot added. ID: ${documentReference}, CollectionPath: ${collectionPath}"
+                )
+            }
+            .addOnFailureListener { e ->
+                //제출 실패 시
+                Log.w("FIREBASE", "Error adding document", e)
+            }
 
 
+    }}
 
-    }
-    //DB에 데이터 추가
 
 

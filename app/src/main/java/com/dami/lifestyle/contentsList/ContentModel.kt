@@ -1,10 +1,11 @@
 package com.dami.lifestyle.contentsList
 
-/*data class ContentModel(
+data class ContentModel(
     var title:String ="",
     var imageUrl : String ="",
     var webUrl:String= ""
-)*/
+)
+/*
 data class ContentModel(
     var uid: String? = "",
     var author: String? = "",
@@ -22,4 +23,4 @@ data class ContentModel(
         "webUrl" to webUrl
     )
 
-}
+}*/
