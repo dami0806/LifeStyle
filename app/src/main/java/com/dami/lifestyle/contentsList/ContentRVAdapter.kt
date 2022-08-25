@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dami.lifestyle.R
 
-class ContentRVAdapter(val context: Context, val items: ArrayList<ContentModel>) :
+class ContentRVAdapter(val context: Context, val items: ArrayList<ContentModel>,val itemKeyList:ArrayList<String>) :
     RecyclerView.Adapter<ContentRVAdapter.Viewholder>() {
 
 
@@ -43,7 +43,7 @@ class ContentRVAdapter(val context: Context, val items: ArrayList<ContentModel>)
             val bookmarkArea = itemView.findViewById<ImageView>(R.id.bookmarkArea)
 
             bookmarkArea.setOnClickListener {
-                Toast.makeText(context ,"북마크 클릭",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context ,itemKeyList.toString(),Toast.LENGTH_SHORT).show()
             }
             contentTitle.text = item.title
             //이미지주소 넣기

@@ -23,7 +23,10 @@ class ContentListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_content_list)
 
         val items = ArrayList<ContentModel>()
-        val rvAdapter = ContentRVAdapter(baseContext, items) //동기화문제로 위치 이동후 notifycation
+        //key문자열 저장 ->북마크에 이용
+        val itemKeyList = ArrayList<String>()
+
+        val rvAdapter = ContentRVAdapter(baseContext, items,itemKeyList) //동기화문제로 위치 이동후 notifycation
 
         val database : FirebaseDatabase = FirebaseDatabase.getInstance()
 
@@ -34,7 +37,7 @@ class ContentListActivity : AppCompatActivity() {
             myRef = database.getReference("contents2")
 
         }
-
+//firebase데이터 가져오는 코드
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Get Post object and use the values to update the UI
@@ -42,11 +45,13 @@ class ContentListActivity : AppCompatActivity() {
             //데이터 하나씩 빼오기
                 for(dataModel in dataSnapshot.children){
                     Log.d("이이거2",dataSnapshot.toString())
+                    Log.d("이이거4",dataModel.key.toString())
                    val item= dataModel.getValue(ContentModel::class.java)
                     items.add(item!!)
+                    itemKeyList.add(dataModel.key.toString())
                 }
                 rvAdapter.notifyDataSetChanged() //받아온후 리프레쉬
-                Log.d("이이거3",items.toString()) //안나옴 -->비동기화문제
+                Log.d("이이거3",items.toString()) //안나옴 -->비동기화문제  위 코드로 해결
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
