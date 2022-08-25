@@ -141,16 +141,16 @@ class ContentListActivity : AppCompatActivity() {
         //2줄로
         rv.layoutManager = GridLayoutManager(this, 2)
         //glide 이미지 로딩 라이브러리
-        rvAdapter.itemClick = object : ContentRVAdapter.ItemClick {
+   /*     rvAdapter.itemClick = object : ContentRVAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
                 Toast.makeText(baseContext, items[position].title, Toast.LENGTH_SHORT).show()
 
                 val intent = Intent(this@ContentListActivity, ContentShowActivity::class.java)
                 intent.putExtra("url", items[position].webUrl) //클릭시 각 position의 url 넘어가기
                 startActivity(intent)
-            }
+            }}*/
 
-        }}}
+        }}
 
         // items.add(ContentModel("imageurl","title","weburl"))
        /* items.add(
