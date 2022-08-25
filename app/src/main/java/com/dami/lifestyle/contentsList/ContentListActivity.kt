@@ -19,11 +19,14 @@ import com.google.firebase.ktx.Firebase
 
 class ContentListActivity : AppCompatActivity() {
     //1.items.add해서 데이터를 다 넣은뒤 2.add 코트를 지우고 3.items에 넣어진 데이터 불러오기
-    val items = ArrayList<ContentModel>()
+
     var db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_content_list)
+
+        val items = ArrayList<ContentModel>()
+        val rvAdapter = ContentRVAdapter(baseContext, items) //동기화문제로 위치 이동후 notifycation
 
         val database : FirebaseDatabase = FirebaseDatabase.getInstance()
         val myRef = database.getReference("contents")
@@ -38,6 +41,7 @@ class ContentListActivity : AppCompatActivity() {
                    val item= dataModel.getValue(ContentModel::class.java)
                     items.add(item!!)
                 }
+                rvAdapter.notifyDataSetChanged() //받아온후 리프레쉬
                 Log.d("이이거3",items.toString()) //안나옴 -->비동기화문제
             }
 
@@ -47,7 +51,7 @@ class ContentListActivity : AppCompatActivity() {
             }
         }
         myRef.addValueEventListener(postListener)
-       /* myRef.push().setValue(
+      /*  myRef.push().setValue(
             ContentModel(
                 "title1",
                 "https://postfiles.pstatic.net/MjAyMjA4MTdfMjMz/MDAxNjYwNzI3Mjg1NjE5.ZX4YzSh_sfNojjZ-Rj_V-q7F1VMz52eBsAZ-D2c5kNEg.XTvQeMwH4PwtkUklpOflZaW1GAt-Rc8QqX6I0r4dCt4g.JPEG.dami0804/KakaoTalk_20220817_180616358.jpg?type=w773",
@@ -106,6 +110,22 @@ class ContentListActivity : AppCompatActivity() {
 
 
         val rv: RecyclerView = findViewById(R.id.rv)
+
+        rv.adapter = rvAdapter
+        //rv.layoutManager = LinearLayoutManager(this) 은 한줄로
+        //2줄로
+        rv.layoutManager = GridLayoutManager(this, 2)
+        //glide 이미지 로딩 라이브러리
+        rvAdapter.itemClick = object : ContentRVAdapter.ItemClick {
+            override fun onClick(view: View, position: Int) {
+                Toast.makeText(baseContext, items[position].title, Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this@ContentListActivity, ContentShowActivity::class.java)
+                intent.putExtra("url", items[position].webUrl) //클릭시 각 position의 url 넘어가기
+                startActivity(intent)
+            }
+
+        }}}
 
         // items.add(ContentModel("imageurl","title","weburl"))
        /* items.add(
@@ -168,34 +188,17 @@ class ContentListActivity : AppCompatActivity() {
 
 
 
-            val rvAdapter = ContentRVAdapter(baseContext, items)
-        rv.adapter = rvAdapter
-        //rv.layoutManager = LinearLayoutManager(this) 은 한줄로
-        //2줄로
-        rv.layoutManager = GridLayoutManager(this, 2)
-        //glide 이미지 로딩 라이브러리
-        rvAdapter.itemClick = object : ContentRVAdapter.ItemClick {
-            override fun onClick(view: View, position: Int) {
-                Toast.makeText(baseContext, items[position].title, Toast.LENGTH_SHORT).show()
 
-                val intent = Intent(this@ContentListActivity, ContentShowActivity::class.java)
-                intent.putExtra("url", items[position].webUrl) //클릭시 각 position의 url 넘어가기
-                startActivity(intent)
-            }
-
-        }
-
-
-      /*  var userId: Long? =getLong("user_Id")
-        var gender: String? = arguments?.getString("user_gender")  //작성자 성별*/
+/*      *//*  var userId: Long? =getLong("user_Id")
+        var gender: String? = arguments?.getString("user_gender")  //작성자 성별*//*
         var userId = intent.getLongExtra("user_Id",0)
 
         Log.d("이거",userId.toString())
 //1.해시맵 형태로 데이터베이스에 add
-        val share = hashMapOf(
-            "kakaoUserId" to userId)
+      *//*  val share = hashMapOf(
+            "kakaoUserId" to userId)*//*
 
-       /* addShareData("memo", share)*/
+       *//* addShareData("memo", share)*//*
        }
 
     //DB에 데이터 추가
@@ -216,7 +219,8 @@ class ContentListActivity : AppCompatActivity() {
             }
 
 
-    }}
+    }*/
+
 
 
 
