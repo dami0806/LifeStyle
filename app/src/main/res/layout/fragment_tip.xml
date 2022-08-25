@@ -14,7 +14,7 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-                android:id="@+id/category1"
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="70dp"
@@ -27,12 +27,14 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/category1"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_weight="1"
                         android:src="@drawable/main_icon_all" />
 
                     <ImageView
+                        android:id="@+id/category2"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_weight="1"
