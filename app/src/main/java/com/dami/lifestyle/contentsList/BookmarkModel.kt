@@ -1,4 +1,5 @@
 package com.dami.lifestyle.contentsList
 
-class BookmarkModel {
-}
+data class BookmarkModel(
+    val bookmarkIsTrue: Boolean?=null
+)

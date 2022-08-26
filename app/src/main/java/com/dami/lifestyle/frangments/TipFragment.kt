@@ -25,7 +25,7 @@ class TipFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_tip,container,false)
-//click -> category1
+//click -> category value값은 contentListAct에서 구별
         binding.category1.setOnClickListener{
             val intent = Intent(context,ContentListActivity::class.java)
             intent.putExtra("category","category1")
@@ -36,6 +36,13 @@ class TipFragment : Fragment() {
             intent.putExtra("category", "category2")
             startActivity(intent)
         }
+        binding.category3.setOnClickListener {
+            val intent = Intent(context, ContentListActivity::class.java)
+            intent.putExtra("category","category3")
+            startActivity(intent)
+        }
+
+
         //home
         binding.hometap.setOnClickListener{
             it.findNavController().navigate(R.id.action_tipFragment_to_homeFragment)
