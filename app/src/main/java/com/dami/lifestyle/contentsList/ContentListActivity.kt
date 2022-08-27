@@ -168,12 +168,12 @@ class ContentListActivity : AppCompatActivity() {
 //firebase데이터 가져오는 코드
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-
+                bookmarkIdList.clear()
                 for (dataModel in dataSnapshot.children) {
                     bookmarkIdList.add(dataModel.key.toString())
-                   /* Log.d("태그", dataModel.key.toString())
-                    Log.d("태그", dataModel.toString())*/
-                    Log.d("태그",bookmarkIdList.toString())
+                    /* Log.d("태그", dataModel.key.toString())
+                     Log.d("태그", dataModel.toString())*/
+                    Log.d("태그", bookmarkIdList.toString())
                     rvAdapter.notifyDataSetChanged()
                 }
             }
