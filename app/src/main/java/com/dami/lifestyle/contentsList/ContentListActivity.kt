@@ -171,8 +171,10 @@ class ContentListActivity : AppCompatActivity() {
 
                 for (dataModel in dataSnapshot.children) {
                     bookmarkIdList.add(dataModel.key.toString())
-                    Log.d("태그", dataModel.key.toString())
-                    Log.d("태그", dataModel.toString())
+                   /* Log.d("태그", dataModel.key.toString())
+                    Log.d("태그", dataModel.toString())*/
+                    Log.d("태그",bookmarkIdList.toString())
+                  
                 }
             }
 

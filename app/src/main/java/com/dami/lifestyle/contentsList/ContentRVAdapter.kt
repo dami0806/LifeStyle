@@ -77,6 +77,8 @@ class ContentRVAdapter(
                         // .child(KakaoAuth.getUid().toString())
                         .child(key)
                         .setValue(BookmarkModel(true))
+
+
                 }
                 /*  FBRef.bookmarkRef
                       //.child(FBAuth.getUid())
@@ -95,5 +97,9 @@ class ContentRVAdapter(
         }
 
 
+
     }
+
 }
+
+
