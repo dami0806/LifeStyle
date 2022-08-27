@@ -13,23 +13,25 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dami.lifestyle.*
 
-class ContentRVAdapter(val context: Context,
-                       val items: ArrayList<ContentModel>,
-                       val keyList : ArrayList<String>,
-                       val bookmarkIdList : MutableList<String>) :
+class ContentRVAdapter(
+    val context: Context,
+    val items: ArrayList<ContentModel>,
+    val keyList: ArrayList<String>,
+    val bookmarkIdList: MutableList<String>
+) :
     RecyclerView.Adapter<ContentRVAdapter.Viewholder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentRVAdapter.Viewholder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.content_rv_item, parent, false)
-       Log.d("키확인",keyList.toString())
-        Log.d("키확인",bookmarkIdList.toString())
+        Log.d("키확인", keyList.toString())
+        Log.d("키확인", bookmarkIdList.toString())
         return Viewholder(v)
     }
 
     override fun onBindViewHolder(holder: ContentRVAdapter.Viewholder, position: Int) {
 
-        holder.bindItems(items[position],keyList[position])
+        holder.bindItems(items[position], keyList[position])
     }
 
     override fun getItemCount(): Int {
@@ -37,11 +39,11 @@ class ContentRVAdapter(val context: Context,
     }
 
     inner class Viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItems(item: ContentModel,key:String) {
+        fun bindItems(item: ContentModel, key: String) {
 
-            itemView.setOnClickListener{
-                val intent = Intent(context,ContentShowActivity::class.java)
-                intent.putExtra("url",item.webUrl)
+            itemView.setOnClickListener {
+                val intent = Intent(context, ContentShowActivity::class.java)
+                intent.putExtra("url", item.webUrl)
                 itemView.context.startActivity(intent)
             }
 
@@ -50,21 +52,39 @@ class ContentRVAdapter(val context: Context,
             val bookmarkArea = itemView.findViewById<ImageView>(R.id.bookmarkArea)
 
             //keylist가 bookmarklist정보 포함하면 검정색으로
-            if(bookmarkIdList.contains(key)){
+            if (bookmarkIdList.contains(key)) {
                 bookmarkArea.setImageResource(R.drawable.bookmark_color)
-            }else{
+
+            } else {
                 bookmarkArea.setImageResource(R.drawable.bookmark_white)
             }
 
             bookmarkArea.setOnClickListener {
-                Toast.makeText(context ,key.toString(),Toast.LENGTH_SHORT).show()
-                FBRef.bookmarkRef
-                    //.child(FBAuth.getUid())
-                   // .child(KakaoAuth.getUid().toString())
-                    .child(key)
-                    .setValue(BookmarkModel(true))
-                //keylist가 bookmarklist정보 포함하면 검정색으로
-                   bookmarkArea.setImageResource(R.drawable.bookmark_color)
+                Toast.makeText(context, key.toString(), Toast.LENGTH_SHORT).show()
+
+                if (bookmarkIdList.contains(key)) {
+                    //북마크가 있을때
+                    bookmarkIdList.remove(key)
+                    FBRef.bookmarkRef
+                        //.child(FBAuth.getUid())
+                        // .child(KakaoAuth.getUid().toString())
+                        .child(key)
+                        .removeValue()
+                } else {
+                    //북마크가 없을때
+                    FBRef.bookmarkRef
+                        //.child(FBAuth.getUid())
+                        // .child(KakaoAuth.getUid().toString())
+                        .child(key)
+                        .setValue(BookmarkModel(true))
+                }
+                /*  FBRef.bookmarkRef
+                      //.child(FBAuth.getUid())
+                     // .child(KakaoAuth.getUid().toString())
+                      .child(key)
+                      .setValue(BookmarkModel(true))
+                  //keylist가 bookmarklist정보 포함하면 검정색으로
+                     bookmarkArea.setImageResource(R.drawable.bookmark_color)*/
 
             }
             contentTitle.text = item.title
