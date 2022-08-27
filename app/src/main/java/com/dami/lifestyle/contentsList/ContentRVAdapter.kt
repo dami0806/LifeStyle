@@ -10,9 +10,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.dami.lifestyle.R
+import com.dami.lifestyle.*
 
-class ContentRVAdapter(val context: Context, val items: ArrayList<ContentModel>,val itemKeyList:ArrayList<String>) :
+class ContentRVAdapter(val context: Context,
+                       val items: ArrayList<ContentModel>,
+                       val keyList : ArrayList<String>,
+                       val bookmarkIdList : MutableList<String>) :
     RecyclerView.Adapter<ContentRVAdapter.Viewholder>() {
 
 
@@ -23,7 +26,7 @@ class ContentRVAdapter(val context: Context, val items: ArrayList<ContentModel>,
 
     override fun onBindViewHolder(holder: ContentRVAdapter.Viewholder, position: Int) {
 
-        holder.bindItems(items[position])
+        holder.bindItems(items[position],keyList[position])
     }
 
     override fun getItemCount(): Int {
@@ -31,19 +34,26 @@ class ContentRVAdapter(val context: Context, val items: ArrayList<ContentModel>,
     }
 
     inner class Viewholder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindItems(item: ContentModel) {
+        fun bindItems(item: ContentModel,key:String) {
 
             itemView.setOnClickListener{
                 val intent = Intent(context,ContentShowActivity::class.java)
                 intent.putExtra("url",item.webUrl)
                 itemView.context.startActivity(intent)
             }
+
             val contentTitle = itemView.findViewById<TextView>(R.id.textArea)
             val imgViewArea = itemView.findViewById<ImageView>(R.id.imageArea)
             val bookmarkArea = itemView.findViewById<ImageView>(R.id.bookmarkArea)
 
             bookmarkArea.setOnClickListener {
-                Toast.makeText(context ,itemKeyList.toString(),Toast.LENGTH_SHORT).show()
+                Toast.makeText(context ,key.toString(),Toast.LENGTH_SHORT).show()
+
+                FBRef.bookmarkRef
+                    //.child(FBAuth.getUid())
+                   // .child(KakaoAuth.getUid().toString())
+                    .child(key)
+                    .setValue(BookmarkModel(true))
             }
             contentTitle.text = item.title
             //이미지주소 넣기

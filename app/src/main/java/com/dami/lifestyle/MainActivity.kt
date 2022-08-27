@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         val share = hashMapOf(
             "kakaoUserId" to userId)
 
-        addShareData("memo", share)
+        addShareData("UserNum", share)
     }  //DB에 데이터 추가
     private fun addShareData(collectionPath: String, share: HashMap<String, Long>) {
         //DB에 문서 추가 -

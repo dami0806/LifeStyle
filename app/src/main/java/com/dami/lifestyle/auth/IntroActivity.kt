@@ -1,6 +1,7 @@
 package com.dami.lifestyle.auth
 import com.kakao.sdk.common.model.AuthErrorCause.*
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,7 @@ import com.dami.lifestyle.MainActivity
 import com.dami.lifestyle.R
 import com.dami.lifestyle.contentsList.ContentListActivity
 import com.dami.lifestyle.databinding.ActivityIntroBinding
+import com.firebase.ui.auth.data.model.User
 import com.google.android.gms.common.api.Api
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -104,7 +106,19 @@ class IntroActivity : AppCompatActivity() {
                 Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this,MainActivity::class.java)
 
-                UserApiClient.instance.me { user, error ->
+
+// 사용자 정보 요청 (기본)
+                    UserApiClient.instance.me { user, error ->
+                        if (error != null) {
+                            Log.e(TAG, "사용자 정보 요청 실패", error)
+                        }
+                        else if (user != null) {
+                            Log.i("탴", "사용자 정보 요청 성공" +
+                                    "\n회원번호: ${user.id}" +
+                                    "\n이메일: ${user.kakaoAccount?.email}" +
+                                    "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
+                                    "\n프로필사진: ${user.kakaoAccount?.profile?.thumbnailImageUrl}")
+                        }
 
                     //사용자 정보
                     var userId = user?.id //type: Long
@@ -122,6 +136,7 @@ class IntroActivity : AppCompatActivity() {
 
 
             }
+
         }
 
         kakao_login_button.setOnClickListener {
@@ -134,6 +149,9 @@ class IntroActivity : AppCompatActivity() {
         }
 
 
+    }
+    @JvmOverloads
+    fun me(secureReSource: Boolean = true, callback: (user: User?, error: Throwable?) -> Unit) {
     }
 
 }

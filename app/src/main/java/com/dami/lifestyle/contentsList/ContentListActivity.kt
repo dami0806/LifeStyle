@@ -18,6 +18,8 @@ import com.google.firebase.ktx.Firebase
 class ContentListActivity : AppCompatActivity() {
     //1.items.add해서 데이터를 다 넣은뒤 2.add 코트를 지우고 3.items에 넣어진 데이터 불러오기
     lateinit var myRef: DatabaseReference
+    lateinit var rvAdapter: ContentRVAdapter
+    val bookmarkIdList = mutableListOf<String>()
     var db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +28,8 @@ class ContentListActivity : AppCompatActivity() {
         val items = ArrayList<ContentModel>()
         //key문자열 저장 ->북마크에 이용
         val itemKeyList = ArrayList<String>()
+        rvAdapter = ContentRVAdapter(baseContext, items, itemKeyList, bookmarkIdList)
 
-        val rvAdapter =
-            ContentRVAdapter(baseContext, items, itemKeyList) //동기화문제로 위치 이동후 notifycation
 
         val database: FirebaseDatabase = FirebaseDatabase.getInstance()
 
@@ -159,6 +160,7 @@ class ContentListActivity : AppCompatActivity() {
                  }}*/
         getbookmarkData()
     }
+
     private fun getbookmarkData() {
 
 //firebase데이터 가져오는 코드
@@ -166,6 +168,7 @@ class ContentListActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 for (dataModel in dataSnapshot.children) {
+                    bookmarkIdList.add(dataModel.key.toString())
                     Log.d("태그", dataModel.key.toString())
                     Log.d("태그", dataModel.toString())
                 }
