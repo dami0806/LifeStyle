@@ -174,7 +174,7 @@ class ContentListActivity : AppCompatActivity() {
                    /* Log.d("태그", dataModel.key.toString())
                     Log.d("태그", dataModel.toString())*/
                     Log.d("태그",bookmarkIdList.toString())
-                  
+                    rvAdapter.notifyDataSetChanged()
                 }
             }
 
