@@ -19,7 +19,9 @@ class ContentListActivity : AppCompatActivity() {
     //1.items.add해서 데이터를 다 넣은뒤 2.add 코트를 지우고 3.items에 넣어진 데이터 불러오기
     lateinit var myRef: DatabaseReference
     lateinit var rvAdapter: ContentRVAdapter
+
     val bookmarkIdList = mutableListOf<String>()
+
     var db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

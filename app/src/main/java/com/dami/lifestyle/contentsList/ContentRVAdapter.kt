@@ -2,6 +2,7 @@ package com.dami.lifestyle.contentsList
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,8 @@ class ContentRVAdapter(val context: Context,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentRVAdapter.Viewholder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.content_rv_item, parent, false)
+       Log.d("키확인",keyList.toString())
+        Log.d("키확인",bookmarkIdList.toString())
         return Viewholder(v)
     }
 
@@ -46,14 +49,23 @@ class ContentRVAdapter(val context: Context,
             val imgViewArea = itemView.findViewById<ImageView>(R.id.imageArea)
             val bookmarkArea = itemView.findViewById<ImageView>(R.id.bookmarkArea)
 
+            //keylist가 bookmarklist정보 포함하면 검정색으로
+            if(bookmarkIdList.contains(key)){
+                bookmarkArea.setImageResource(R.drawable.bookmark_color)
+            }else{
+                bookmarkArea.setImageResource(R.drawable.bookmark_white)
+            }
+
             bookmarkArea.setOnClickListener {
                 Toast.makeText(context ,key.toString(),Toast.LENGTH_SHORT).show()
-
                 FBRef.bookmarkRef
                     //.child(FBAuth.getUid())
                    // .child(KakaoAuth.getUid().toString())
                     .child(key)
                     .setValue(BookmarkModel(true))
+                //keylist가 bookmarklist정보 포함하면 검정색으로
+                   bookmarkArea.setImageResource(R.drawable.bookmark_color)
+
             }
             contentTitle.text = item.title
             //이미지주소 넣기
@@ -61,5 +73,7 @@ class ContentRVAdapter(val context: Context,
                 .load(item.imageUrl)
                 .into(imgViewArea)
         }
+
+
     }
 }
