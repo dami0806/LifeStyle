@@ -10,7 +10,7 @@ class FBRef {
         private val database = Firebase.database
         val category1 = database.getReference("contents")
         val category2 = database.getReference("contents2")
-
+        val category3 = database.getReference("contents3")
         val bookmarkRef = database.getReference("bookmark_list")
 
     }

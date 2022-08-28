@@ -66,6 +66,35 @@ class ContentListActivity : AppCompatActivity() {
             }
         }
         myRef.addValueEventListener(postListener)
+       /* myRef.push().setValue(
+            ContentModel(
+                "title9",
+                "https://postfiles.pstatic.net/MjAyMjA4MjhfMjM3/MDAxNjYxNjc5NjEzNjkw.F2Akkn4k5tWXqpO3B9ytpHWfdomrwWkvQ5IMKcKoQvQg.rsr_xpH6OgITYTHwlu38M97SPhfZ4mvMXNcU6LtIij8g.JPEG.dami0804/KakaoTalk_20220828_183517175.jpg?type=w773",
+                "https://blog.naver.com/dami0804/222860358431"
+            )
+        )
+        myRef.push().setValue(
+            ContentModel(
+                "title10",
+                "https://postfiles.pstatic.net/MjAyMjA4MjhfMjM4/MDAxNjYxNjc5NjQ3Mzgw.ur3bVFrnE3_p6H9sR5CBRy-U1GVss3Z-0SifwcOgVD4g.Lbjd-M4ikibMcuGG5DWp0HjI8fWmT-sUxJCACRz4hwgg.JPEG.dami0804/KakaoTalk_20220828_183517175_01.jpg?type=w773",
+                "https://blog.naver.com/dami0804/222860358816"
+            )
+        )
+        myRef.push().setValue(
+            ContentModel(
+                "title11",
+                "https://postfiles.pstatic.net/MjAyMjA4MjhfMjEy/MDAxNjYxNjc5Njg3NzUz.d2l-9gi-zHq-DoP3L_EZ8RHYMEpxs6UuLSA6iL09O1Yg.Fk_hXbmEbx2hpg4DEpQa6GygyVMTBdCHKbU_R3cZ7_cg.JPEG.dami0804/KakaoTalk_20220828_183517175_02.jpg?type=w773",
+                "https://blog.naver.com/dami0804/222860359285"
+            )
+        )
+        myRef.push().setValue(
+            ContentModel(
+                "title12",
+                "https://postfiles.pstatic.net/MjAyMjA4MjhfNTIg/MDAxNjYxNjc5NzE5MjIy.e0WxMSdRSPHO3NAtOuJvIj6JqYqxs83D5DJBsYL1aiwg.UCAm-9z2CRxUKjjfldsOu3xt9pb5odiSQXVwscbXKZkg.JPEG.dami0804/KakaoTalk_20220828_183517175_03.jpg?type=w773",
+                "https://blog.naver.com/dami0804/222860359625"
+            )
+        )*/
+
         /*myRef.push().setValue(
             ContentModel(
                 "title1",
@@ -171,8 +200,7 @@ class ContentListActivity : AppCompatActivity() {
                 bookmarkIdList.clear()
                 for (dataModel in dataSnapshot.children) {
                     bookmarkIdList.add(dataModel.key.toString())
-                    /* Log.d("태그", dataModel.key.toString())
-                     Log.d("태그", dataModel.toString())*/
+
                     Log.d("태그", bookmarkIdList.toString())
                     rvAdapter.notifyDataSetChanged()
                 }
