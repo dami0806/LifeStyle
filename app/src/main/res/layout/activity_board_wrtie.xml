@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,6 +8,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".board.BoardWrtieActivity">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,6 +35,7 @@
         android:background="@color/black" />
 
     <EditText
+        android:id="@+id/titleArea"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_margin="20dp"
@@ -40,6 +49,7 @@
         android:background="@color/black" />
 
     <EditText
+        android:id="@+id/contentArea"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:hint="내용을 입력하세요" />
@@ -52,21 +62,25 @@
         android:background="@color/black" />
 
     <ImageView
+        android:id="@+id/imgArea"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="20dp"
         android:src="@drawable/plusimg" />
+
 
     <Button
         android:id="@+id/savebtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="400dp"
+        android:layout_marginTop="300dp"
         android:layout_marginRight="30dp"
         android:background="@drawable/backgournd_radius_yellow"
         android:text="입력"
-
         />
+    </LinearLayout>
+</ScrollView>
 
 </LinearLayout>
+</layout>

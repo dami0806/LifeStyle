@@ -1,5 +1,6 @@
 package com.dami.lifestyle.frangments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.dami.lifestyle.R
+import com.dami.lifestyle.board.BoardWrtieActivity
 import com.dami.lifestyle.databinding.FragmentTalkBinding
 import com.dami.lifestyle.databinding.FragmentTipBinding
 
@@ -25,6 +27,10 @@ class TalkFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_talk,container,false)
+        binding.writeimg.setOnClickListener {
+            val intent = Intent(context,BoardWrtieActivity::class.java)
+            startActivity(intent)
+        }
         //home
         binding.hometap.setOnClickListener{
             it.findNavController().navigate(R.id.action_talkFragment_to_homeFragment)
