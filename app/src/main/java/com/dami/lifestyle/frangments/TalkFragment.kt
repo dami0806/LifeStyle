@@ -38,6 +38,8 @@ class TalkFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        //firebase board key로 데이터 가져오기
         // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_talk,container,false)
         binding.writeimg.setOnClickListener {
@@ -73,13 +75,13 @@ class TalkFragment : Fragment() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                     boardDataList.clear()
-                for (dataModel in dataSnapshot.children) {
-                    Log.d("휴",dataModel.toString())
+
+                for (dataModel in dataSnapshot.children.reversed()) {
                     val item = dataModel.getValue(BoardModel::class.java)
                     boardDataList.add(item!!)
                 }
                 boardRVAdapter.notifyDataSetChanged()//어댑터 동기화
-           Log.d("휴", boardDataList.toString())
+
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
