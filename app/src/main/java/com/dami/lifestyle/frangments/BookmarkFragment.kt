@@ -22,6 +22,7 @@ import com.dami.lifestyle.databinding.FragmentBookmarkBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.kakao.sdk.user.UserApiClient
 
 class BookmarkFragment : Fragment() {
     private lateinit var binding: FragmentBookmarkBinding
@@ -123,8 +124,10 @@ class BookmarkFragment : Fragment() {
                 Log.w("ContentListActivity", "loadPost:onCancelled", databaseError.toException())
             }
         }
-        FBRef.bookmarkRef.addValueEventListener(postListener)
-
+    UserApiClient.instance.me { user, error ->
+        FBRef.bookmarkRef.child(user!!.id.toString()).addValueEventListener(postListener)
+    }
+    /*FBRef.bookmarkRef.addValueEventListener(postListener)*/
     }
 
 

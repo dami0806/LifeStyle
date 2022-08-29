@@ -9,8 +9,6 @@ import com.kakao.sdk.common.util.KakaoCustomTabsClient
 import com.kakao.sdk.user.UserApiClient
 
 class FBAuth {
-
-
     companion object {
 
 

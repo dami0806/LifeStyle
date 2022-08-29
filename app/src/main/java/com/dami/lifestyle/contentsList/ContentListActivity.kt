@@ -14,15 +14,16 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.kakao.sdk.user.UserApiClient
 
 class ContentListActivity : AppCompatActivity() {
     //1.items.add해서 데이터를 다 넣은뒤 2.add 코트를 지우고 3.items에 넣어진 데이터 불러오기
+
     lateinit var myRef: DatabaseReference
     lateinit var rvAdapter: ContentRVAdapter
 
     val bookmarkIdList = mutableListOf<String>()
 
-    var db = Firebase.firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_content_list)
@@ -66,7 +67,7 @@ class ContentListActivity : AppCompatActivity() {
             }
         }
         myRef.addValueEventListener(postListener)
-       /* myRef.push().setValue(
+        /* myRef.push().setValue(
             ContentModel(
                 "title9",
                 "https://postfiles.pstatic.net/MjAyMjA4MjhfMjM3/MDAxNjYxNjc5NjEzNjkw.F2Akkn4k5tWXqpO3B9ytpHWfdomrwWkvQ5IMKcKoQvQg.rsr_xpH6OgITYTHwlu38M97SPhfZ4mvMXNcU6LtIij8g.JPEG.dami0804/KakaoTalk_20220828_183517175.jpg?type=w773",
@@ -194,25 +195,60 @@ class ContentListActivity : AppCompatActivity() {
 
     private fun getbookmarkData() {
 
+            val postListener = object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                    bookmarkIdList.clear()
+
+                    for (dataModel in dataSnapshot.children) {
+                        bookmarkIdList.add(dataModel.key.toString())
+                    }
+                    Log.d("Bookmark : ", bookmarkIdList.toString())
+                    rvAdapter.notifyDataSetChanged()
+
+
+
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
+                    // Getting Post failed, log a message
+                    Log.w("ContentListActivity", "loadPost:onCancelled", databaseError.toException())
+                }
+            }
+        UserApiClient.instance.me { user, error ->
+            FBRef.bookmarkRef.child(user!!.id.toString()).addValueEventListener(postListener)
+
+        }
+
+        }
+
 //firebase데이터 가져오는 코드
-        val postListener = object : ValueEventListener {
+    /*    val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 bookmarkIdList.clear()
                 for (dataModel in dataSnapshot.children) {
                     bookmarkIdList.add(dataModel.key.toString())
-
-                    Log.d("태그", bookmarkIdList.toString())
-                    rvAdapter.notifyDataSetChanged()
                 }
+                    Log.d("태그", bookmarkIdList.toString())
+
+                    rvAdapter.notifyDataSetChanged()
+
             }
+
+
+
+
 
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
                 Log.w("이이거", "loadP1ost:onCancelled", databaseError.toException())
             }
         }
-        FBRef.bookmarkRef.addValueEventListener(postListener)
-    }
+        UserApiClient.instance.me { user, error ->
+            FBRef.bookmarkRef.child(user?.id.toString()).addValueEventListener(postListener)
+            Log.d("태그1",  FBRef.bookmarkRef.child(user?.id.toString()).toString())
+        }
+    }*/
 }
 
 // items.add(ContentModel("imageurl","title","weburl"))

@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dami.lifestyle.*
+import com.kakao.sdk.user.UserApiClient
 
 class ContentRVAdapter(
     val context: Context,
@@ -51,52 +52,51 @@ class ContentRVAdapter(
             val imgViewArea = itemView.findViewById<ImageView>(R.id.imageArea)
             val bookmarkArea = itemView.findViewById<ImageView>(R.id.bookmarkArea)
 
-            //keylist가 bookmarklist정보 포함하면 검정색으로
-            if (bookmarkIdList.contains(key)) {
-                bookmarkArea.setImageResource(R.drawable.bookmark_color)
 
-            } else {
-                bookmarkArea.setImageResource(R.drawable.bookmark_white)
-            }
+           UserApiClient.instance.me { user, error ->
 
-            bookmarkArea.setOnClickListener {
-                Toast.makeText(context, key.toString(), Toast.LENGTH_SHORT).show()
+                //keylist가 bookmarklist정보 포함하면 검정색으로
 
-                if (bookmarkIdList.contains(key)) {
-                    //북마크가 있을때
-                    bookmarkIdList.remove(key)
-                    FBRef.bookmarkRef
-                        //.child(FBAuth.getUid())
-                        // .child(KakaoAuth.getUid().toString())
-                        .child(key)
-                        .removeValue()
+                    if(bookmarkIdList.contains(key)){
+                    bookmarkArea.setImageResource(R.drawable.bookmark_color)
+
                 } else {
-                    //북마크가 없을때
-                    FBRef.bookmarkRef
-                        //.child(FBAuth.getUid())
-                        // .child(KakaoAuth.getUid().toString())
-                        .child(key)
-                        .setValue(BookmarkModel(true))
+                    bookmarkArea.setImageResource(R.drawable.bookmark_white)
+                }
+
+                bookmarkArea.setOnClickListener {
+                    Toast.makeText(context, key.toString(), Toast.LENGTH_SHORT).show()
+                    //Log.d("ContentRVAdapter", user!!.id.toString())
+                    if (bookmarkIdList.contains(key)) {
+                        //북마크가 있을때
+                        bookmarkIdList.remove(key)
+                        FBRef.bookmarkRef
+                            .child(user!!.id.toString())
+                           // .child(KakaoAuth.getUid().toString())
+                            .child(key)
+                            .removeValue()
+                    } else {
+                        //북마크가 없을때
+                        FBRef.bookmarkRef
+                            //.child(FBAuth.getUid())
+                             .child(user!!.id.toString())
+                            //.child(KakaoAuth.getUid())
+                            .child(key)
+                            .setValue(BookmarkModel(true))
+
+
+                    }
 
 
                 }
-                /*  FBRef.bookmarkRef
-                      //.child(FBAuth.getUid())
-                     // .child(KakaoAuth.getUid().toString())
-                      .child(key)
-                      .setValue(BookmarkModel(true))
-                  //keylist가 bookmarklist정보 포함하면 검정색으로
-                     bookmarkArea.setImageResource(R.drawable.bookmark_color)*/
-
+                contentTitle.text = item.title
+                //이미지주소 넣기
+                Glide.with(context) //가져올 맥락
+                    .load(item.imageUrl)
+                    .into(imgViewArea)
             }
-            contentTitle.text = item.title
-            //이미지주소 넣기
-            Glide.with(context) //가져올 맥락
-                .load(item.imageUrl)
-                .into(imgViewArea)
+
         }
-
-
 
     }
 

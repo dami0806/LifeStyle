@@ -28,6 +28,9 @@ class BoardWrtieActivity : AppCompatActivity() {
 /*            FBRef.boardRef
                 .child(key)
                 .setValue(BookmarkModel(true))*/
+
+
+
         }
     }
 }

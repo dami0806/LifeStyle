@@ -56,7 +56,7 @@ class BookmarkRVAdapter (
                 //keylist가 bookmarklist정보 포함하면 검정색으로
                 if (bookmarkIdList.contains(key)) {
                     bookmarkArea.setImageResource(R.drawable.bookmark_color)
-
+                    Log.d("체크",key)
                 } else {
                     bookmarkArea.setImageResource(R.drawable.bookmark_white)
                 }
