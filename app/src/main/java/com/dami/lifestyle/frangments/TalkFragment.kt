@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.dami.lifestyle.FBRef
 import com.dami.lifestyle.R
+import com.dami.lifestyle.board.BoardInsideActivity
 import com.dami.lifestyle.board.BoardListAdapter
 import com.dami.lifestyle.board.BoardModel
 import com.dami.lifestyle.board.BoardWrtieActivity
@@ -51,6 +52,16 @@ class TalkFragment : Fragment() {
 
        boardRVAdapter = BoardListAdapter(boardDataList)
         binding.boardLV.adapter = boardRVAdapter
+        binding.boardLV.setOnItemClickListener{ parent, view, position, id->
+
+            val intent = Intent(context,BoardInsideActivity::class.java)
+            intent.putExtra("title",boardDataList[position].title)
+            intent.putExtra("content",boardDataList[position].content)
+            intent.putExtra("time",boardDataList[position].time)
+
+            startActivity(intent)
+
+        }
         //home
         binding.hometap.setOnClickListener{
             it.findNavController().navigate(R.id.action_talkFragment_to_homeFragment)
