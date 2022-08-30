@@ -28,6 +28,7 @@ class TalkFragment : Fragment() {
     private lateinit var binding: FragmentTalkBinding
     private val boardDataList= mutableListOf<BoardModel>()//데이터 담기
     private lateinit var boardRVAdapter: BoardListAdapter
+    private var boardKeyList = mutableListOf<String>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,10 +56,10 @@ class TalkFragment : Fragment() {
         binding.boardLV.setOnItemClickListener{ parent, view, position, id->
 
             val intent = Intent(context,BoardInsideActivity::class.java)
-            intent.putExtra("title",boardDataList[position].title)
+           /* intent.putExtra("title",boardDataList[position].title)
             intent.putExtra("content",boardDataList[position].content)
             intent.putExtra("time",boardDataList[position].time)
-
+*/          intent.putExtra("key",boardKeyList[position])
             startActivity(intent)
 
         }
@@ -90,6 +91,7 @@ class TalkFragment : Fragment() {
                 for (dataModel in dataSnapshot.children.reversed()) {
                     val item = dataModel.getValue(BoardModel::class.java)
                     boardDataList.add(item!!)
+                    boardKeyList.add(dataModel.key.toString())
                 }
                 boardRVAdapter.notifyDataSetChanged()//어댑터 동기화
 
