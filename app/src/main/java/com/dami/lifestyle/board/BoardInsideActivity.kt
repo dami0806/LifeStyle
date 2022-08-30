@@ -3,20 +3,26 @@ package com.dami.lifestyle.board
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.dami.lifestyle.FBRef
 import com.dami.lifestyle.KakaoAuth
 import com.dami.lifestyle.R
 import com.dami.lifestyle.databinding.ActivityBoardInsideBinding
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 
 class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_inside)
         //setContentView(R.layout.activity_board_inside)
         /* val title = intent.getStringExtra("title").toString()
@@ -32,6 +38,7 @@ class BoardInsideActivity : AppCompatActivity() {
         val key = intent.getStringExtra("key")
         Log.d("택1", key.toString())
         getBoardData(key.toString())
+        getImgData(key.toString())
 
     }
 
@@ -45,6 +52,7 @@ class BoardInsideActivity : AppCompatActivity() {
                 binding.titleArea.text = dataModel!!.title
                 binding.contentArea.text =dataModel!!.content
                 binding.timeArea.text =dataModel!!.time
+               // binding.imgArea.
                 Log.d("스냅샷",dataModel!!.title.toString())
             }
 
@@ -54,4 +62,25 @@ class BoardInsideActivity : AppCompatActivity() {
         }
         FBRef.boardRef.child(key).addValueEventListener(postListener)
     }
+    private fun getImgData(key: String) {
+
+        // Reference to an image file in Cloud Storage
+        val storageReference = Firebase.storage.reference.child("${key}.jpg")
+
+// ImageView in your Activity
+        val imageView = binding.imgArea
+
+    storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener {  task ->
+        if(task.isSuccessful){
+    Glide.with(this /* context */)
+        .load(task.result)
+        .into(imageView)
+
+}else{
+
+}
+
+})
+    }
+
 }

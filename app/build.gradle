@@ -48,7 +48,8 @@ dependencies {
     // 카카오 SDK 모듈 설정
    /* implementation "com.kakao.sdk:v2-user:2.5.2" // 카카오 로그인*/
     implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.27.0'
-
+    implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'com.firebaseui:firebase-ui-storage:7.2.0'
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:28.2.1')
     implementation 'com.google.firebase:firebase-database-ktx' // Realtime Database library

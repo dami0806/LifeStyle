@@ -43,6 +43,14 @@
         android:layout_margin="20dp"
         android:padding="10dp"
         />
+    <ImageView
+        android:id="@+id/imgArea"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_margin="20dp"
+        android:padding="10dp"
+        android:layout_gravity="center_horizontal"
+        />
 
 </LinearLayout>
 </layout>
