@@ -1,8 +1,10 @@
 package com.dami.lifestyle.board
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -13,6 +15,7 @@ import com.dami.lifestyle.R
 import com.dami.lifestyle.R.layout.activity_board_wrtie
 import com.dami.lifestyle.contentsList.BookmarkModel
 import com.dami.lifestyle.databinding.ActivityBoardWrtieBinding
+import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.user.UserApiClient
 import kotlin.Unit.toString
 
@@ -23,6 +26,10 @@ class BoardWrtieActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_wrtie)
+        binding.imgbtn.setOnClickListener {
+            val gallery = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            startActivityForResult(gallery,0)
+        }
         binding.savebtn.setOnClickListener {
             UserApiClient.instance.me { user, error ->
                 val title = binding.titleArea.text.toString()
@@ -44,6 +51,15 @@ class BoardWrtieActivity : AppCompatActivity() {
                 finish() //activity끝내기
 
             }
+
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == RESULT_OK&&requestCode==0){
+            binding.imgArea.setImageURI(data?.data)
         }
     }
 }

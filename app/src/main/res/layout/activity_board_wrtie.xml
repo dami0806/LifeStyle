@@ -64,11 +64,18 @@
                     android:background="@color/black" />
 
                 <ImageView
-                    android:id="@+id/imgArea"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_marginTop="20dp"
+                    android:id="@+id/imgbtn"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
                     android:src="@drawable/plusimg" />
+                <ImageView
+                    android:id="@+id/imgArea"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal" />
+
 
 
                 <Button
