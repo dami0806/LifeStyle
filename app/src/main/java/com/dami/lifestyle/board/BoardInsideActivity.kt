@@ -1,5 +1,7 @@
 package com.dami.lifestyle.board
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -35,11 +37,13 @@ import kotlin.Unit.toString
 class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
     private lateinit var key:String
-    lateinit var baseLayout : LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_inside)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.show()
         //setContentView(R.layout.activity_board_inside)
         /* val title = intent.getStringExtra("title").toString()
         val content = intent.getStringExtra("content").toString()
@@ -59,12 +63,6 @@ class BoardInsideActivity : AppCompatActivity() {
 
 
 
-    }
-    //URL 클립에 복사
-    fun copyToClipboard(text:String){
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("label",text)
-        clipboard.setPrimaryClip(clip)
     }
 
 

@@ -7,6 +7,13 @@
     android:layout_height="match_parent"
     tools:context=".board.BoardInsideActivity"
     android:orientation="vertical">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/Theme.AppCompat.Light.NoActionBar" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp">
