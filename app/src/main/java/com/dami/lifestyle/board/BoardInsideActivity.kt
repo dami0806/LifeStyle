@@ -1,5 +1,9 @@
 package com.dami.lifestyle.board
 
+import android.app.Dialog
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -23,6 +27,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import java.net.URL
+import java.net.URLEncoder
+import kotlin.Unit.toString
 
 class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
@@ -47,6 +54,15 @@ class BoardInsideActivity : AppCompatActivity() {
         getBoardData(key.toString())
         getImgData(key.toString())
 
+
+
+
+    }
+    //URL 클립에 복사
+    fun copyToClipboard(text:String){
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("label",text)
+        clipboard.setPrimaryClip(clip)
     }
 
 
@@ -96,7 +112,39 @@ class BoardInsideActivity : AppCompatActivity() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        super.onCreateOptionsMenu(menu)
+        var mInflator = menuInflater
+        mInflator.inflate(R.menu.menu,menu)
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        //return super.onOptionsItemSelected(item)
+        when (item.itemId) {
+            R.id.itemRed -> {
+                baseLayout.setBackgroundColor(Color.RED)
+                return true
+            }
+            R.id.itemGreen -> {
+                var dlg = AlertDialog.Builder(this@BoardInsideActivity)
+                dlg.setMessage("삭제하시겠습니까?")
 
+                dlg.setNegativeButton("확인",null)
+
+                dlg.setPositiveButton("취소"){ dialog,which ->
+                    dialog.cancel()
+                }
+                dlg.setNegativeButton("확인") { dialog, which ->
+                        Toast.makeText(this,"삭제",Toast.LENGTH_SHORT).show()}
+                dlg.show()
+                return true
+            }
+
+
+        }
+        return false
+
+    }
 
 
 }
