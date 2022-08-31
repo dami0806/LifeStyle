@@ -1,9 +1,16 @@
 package com.dami.lifestyle.board
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.dami.lifestyle.FBRef
@@ -19,7 +26,7 @@ import com.google.firebase.storage.ktx.storage
 
 class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
-
+    lateinit var baseLayout : LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,6 +48,11 @@ class BoardInsideActivity : AppCompatActivity() {
         getImgData(key.toString())
 
     }
+
+
+
+
+
 
     private fun getBoardData(key: String) {
 
@@ -67,20 +79,27 @@ class BoardInsideActivity : AppCompatActivity() {
         // Reference to an image file in Cloud Storage
         val storageReference = Firebase.storage.reference.child("${key}.jpg")
 
-// ImageView in your Activity
-        val imageView = binding.imgArea
+        // ImageView in your Activity
+        val imageViewFromFB = binding.imgArea
 
-    storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener {  task ->
-        if(task.isSuccessful){
-    Glide.with(this /* context */)
-        .load(task.result)
-        .into(imageView)
+        storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
+            if(task.isSuccessful) {
 
-}else{
+                Glide.with(this)
+                    .load(task.result)
+                    .into(imageViewFromFB)
 
-}
+            } else {
 
-})
+            }
+        })
+
     }
 
+
+
+
 }
+
+
+

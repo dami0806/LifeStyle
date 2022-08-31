@@ -88,10 +88,13 @@ class TalkFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                     boardDataList.clear()
 
-                for (dataModel in dataSnapshot.children.reversed()) {
+                for (dataModel in dataSnapshot.children) {
                     val item = dataModel.getValue(BoardModel::class.java)
+
                     boardDataList.add(item!!)
                     boardKeyList.add(dataModel.key.toString())
+                    boardDataList.reverse()
+                    boardKeyList.reverse()
                 }
                 boardRVAdapter.notifyDataSetChanged()//어댑터 동기화
 
