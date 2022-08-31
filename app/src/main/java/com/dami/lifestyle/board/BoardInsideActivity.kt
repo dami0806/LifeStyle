@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -33,6 +34,7 @@ import kotlin.Unit.toString
 
 class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
+    private lateinit var key:String
     lateinit var baseLayout : LinearLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,10 +51,10 @@ class BoardInsideActivity : AppCompatActivity() {
         binding.contentArea.text = content
         binding.timeArea.text = time
 */
-        val key = intent.getStringExtra("key")
-        Log.d("택1", key.toString())
-        getBoardData(key.toString())
-        getImgData(key.toString())
+        key = intent.getStringExtra("key").toString()
+        Log.d("택1", key)
+        getBoardData(key)
+        getImgData(key)
 
 
 
@@ -122,20 +124,24 @@ class BoardInsideActivity : AppCompatActivity() {
         //return super.onOptionsItemSelected(item)
         when (item.itemId) {
             R.id.itemRed -> {
-                baseLayout.setBackgroundColor(Color.RED)
+              val intent = Intent(this,BoardEditActivity::class.java)
+                intent.putExtra("key",key)
+                startActivity(intent)
                 return true
             }
             R.id.itemGreen -> {
                 var dlg = AlertDialog.Builder(this@BoardInsideActivity)
                 dlg.setMessage("삭제하시겠습니까?")
 
-                dlg.setNegativeButton("확인",null)
+
 
                 dlg.setPositiveButton("취소"){ dialog,which ->
                     dialog.cancel()
                 }
                 dlg.setNegativeButton("확인") { dialog, which ->
-                        Toast.makeText(this,"삭제",Toast.LENGTH_SHORT).show()}
+                        Toast.makeText(this,"삭제",Toast.LENGTH_SHORT).show()
+                        FBRef.boardRef.child(key).removeValue()
+                        }
                 dlg.show()
                 return true
             }

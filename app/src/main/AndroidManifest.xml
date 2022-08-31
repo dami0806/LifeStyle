@@ -4,7 +4,7 @@
     package="com.dami.lifestyle">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />//이미지추가 권한
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".auth.GlobalApplication"
@@ -20,6 +20,9 @@
         android:usesCleartextTraffic="true"
         tools:ignore="Instantiatable"
         tools:targetApi="31">
+        <activity
+            android:name=".board.BoardEditActivity"
+            android:exported="false" />
         <activity
             android:name=".board.BoardInsideActivity"
             android:exported="false" />
