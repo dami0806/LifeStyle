@@ -18,6 +18,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isInvisible
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.dami.lifestyle.FBRef
@@ -127,7 +128,7 @@ class BoardInsideActivity : AppCompatActivity() {
                     .into(imageViewFromFB)
 
             } else {
-
+                binding.imgArea.isInvisible=false
             }
         })
 

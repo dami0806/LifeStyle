@@ -22,18 +22,19 @@ return position.toLong()
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var convertview = convertView
-    if(convertview==null){
+    //if(convertview==null){ //중첩 버그로 지워놓기
         convertview = LayoutInflater.from(parent?.context).inflate(R.layout.board_item,parent,false)
 
-    }
+   //}
         val title = convertview?.findViewById<TextView>(R.id.title)
-        title!!.text = boardList[position].title.toString()
+        title!!.text = boardList[position].title
 
         val content=convertview?.findViewById<TextView>(R.id.content)
-        content!!.text= boardList[position].content.toString()
+        content!!.text= boardList[position].content
 
         val time=convertview?.findViewById<TextView>(R.id.time)
-        time!!.text = boardList[position].time.toString()
+        time!!.text = boardList[position].time
+
         return convertview!!
     }
 
