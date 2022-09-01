@@ -1,4 +1,4 @@
-package com.dami.lifestyle.board
+package com.dami.lifestyle.comment
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,14 +6,15 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.dami.lifestyle.R
+import com.dami.lifestyle.board.BoardModel
 
-class BoardListAdapter(val boardList:MutableList<BoardModel>):BaseAdapter(){
+class CommentLVAdapter(val commentList: MutableList<CommentModel>): BaseAdapter() {
     override fun getCount(): Int {
-        return boardList.size
+        return commentList.size
     }
 
     override fun getItem(position: Int): Any {
-    return boardList[position]
+        return commentList[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -22,20 +23,18 @@ class BoardListAdapter(val boardList:MutableList<BoardModel>):BaseAdapter(){
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var convertview = convertView
-    //if(convertview==null){ //중첩 버그로 지워놓기
+        if(convertview==null){ //중첩 버그로 지워놓기
         convertview = LayoutInflater.from(parent?.context).inflate(R.layout.board_item,parent,false)
 
-   //}
+        }
         val title = convertview?.findViewById<TextView>(R.id.title)
-        title!!.text = boardList[position].title
+        title!!.text = commentList[position].commentTitle
 
-        val content=convertview?.findViewById<TextView>(R.id.content)
-        content!!.text= boardList[position].content
+
 
         val time=convertview?.findViewById<TextView>(R.id.time)
-        time!!.text = boardList[position].time
+        time!!.text = commentList[position].commentTime
 
         return convertview!!
     }
-
 }

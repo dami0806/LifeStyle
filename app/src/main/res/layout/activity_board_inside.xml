@@ -85,6 +85,7 @@
                     android:background="@color/black" />
 
                 <ListView
+                    android:id="@+id/commentLV"
                     android:layout_width="match_parent"
                     android:layout_height="600dp"
                     android:background="#FFEDB8" />
@@ -106,6 +107,7 @@
                 android:hint="댓글을 입력해주세요" />
 
             <ImageView
+                android:id="@+id/commentBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:src="@drawable/sendimg"

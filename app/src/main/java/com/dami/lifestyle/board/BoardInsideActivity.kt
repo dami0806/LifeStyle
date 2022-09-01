@@ -1,21 +1,11 @@
 package com.dami.lifestyle.board
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.Dialog
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isInvisible
@@ -24,6 +14,8 @@ import com.bumptech.glide.Glide
 import com.dami.lifestyle.FBRef
 import com.dami.lifestyle.KakaoAuth
 import com.dami.lifestyle.R
+import com.dami.lifestyle.comment.CommentLVAdapter
+import com.dami.lifestyle.comment.CommentModel
 import com.dami.lifestyle.databinding.ActivityBoardInsideBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
@@ -32,22 +24,23 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.kakao.sdk.user.UserApiClient
-import java.net.URL
-import java.net.URLEncoder
-import kotlin.Unit.toString
 
 class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
-    private lateinit var key:String
+    private lateinit var key: String
+
     //글쓴 사람과 현재 uid 비교
-    var MyUid:String?=null
-   var WriterUid:String?=null
+    var MyUid: String? = null
+    var WriterUid: String? = null
+
+    private var commentDataList = mutableListOf<CommentModel>()
+    private lateinit var commentRVAdapter: CommentLVAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_inside)
-
 
 
         //setContentView(R.layout.activity_board_inside)
@@ -66,15 +59,59 @@ class BoardInsideActivity : AppCompatActivity() {
         getBoardData(key)
         getImgData(key)
 
+        binding.commentBtn.setOnClickListener {
+            //댓글 입력
+            InsertComment(key)
+        }
+        commentRVAdapter = CommentLVAdapter(commentDataList)
+        binding.commentLV.adapter = commentRVAdapter
+        getCommentData(key)
+    }
+
+    fun getCommentData(key: String) {
+//comment 아래 board아래 commentkey 아래 comment 데이터들
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                commentDataList.clear()
+                for (dataModel in dataSnapshot.children) {
+                    val item = dataModel.getValue(CommentModel::class.java)
+
+                    commentDataList.add(item!!)
 
 
+                }
+                commentRVAdapter.notifyDataSetChanged()//어댑터 동기화
 
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
+        }
+        FBRef.commentRef.child(key).addValueEventListener(postListener)
 
     }
 
+    fun InsertComment(key: String) {
+        //comment
+        // - boardKey 아이디
+        // - CommentKey
+        // - CommentData
+        // - CommentData
+        FBRef.commentRef
+            .child(key)
+            .push()
+            .setValue(
+                CommentModel(
+                    binding.commentArea.text.toString(),
+                    KakaoAuth.getTime()
+                )
+            )
+        Toast.makeText(this, "댓글이 작성되었습니다. ", Toast.LENGTH_SHORT).show()
+        binding.commentArea.setText("")
 
 
-
+    }
 
 
     private fun getBoardData(key: String) {
@@ -83,11 +120,11 @@ class BoardInsideActivity : AppCompatActivity() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 //Log.d("스냅샷",dataSnapshot.toString())
-                val dataModel =dataSnapshot.getValue(BoardModel::class.java)
+                val dataModel = dataSnapshot.getValue(BoardModel::class.java)
                 binding.titleArea.text = dataModel!!.title
-                binding.contentArea.text =dataModel!!.content
-                binding.timeArea.text =dataModel!!.time
-               // binding.imgArea.
+                binding.contentArea.text = dataModel!!.content
+                binding.timeArea.text = dataModel!!.time
+                // binding.imgArea.
 
                 WriterUid = dataModel.uid
 
@@ -95,11 +132,11 @@ class BoardInsideActivity : AppCompatActivity() {
                 //writer만 보여주기
                 UserApiClient.instance.me { user, error ->
                     MyUid = user!!.id.toString()
-                Log.d("택2",WriterUid.toString())
-                Log.d("택2", MyUid.toString())
-                if(MyUid.equals(WriterUid)){
-                    setSupportActionBar(binding.toolbar)
-                   }
+                    Log.d("택2", WriterUid.toString())
+                    Log.d("택2", MyUid.toString())
+                    if (MyUid.equals(WriterUid)) {
+                        setSupportActionBar(binding.toolbar)
+                    }
                 }
 
             }
@@ -112,6 +149,7 @@ class BoardInsideActivity : AppCompatActivity() {
 
 
     }
+
     private fun getImgData(key: String) {
 
         // Reference to an image file in Cloud Storage
@@ -121,14 +159,14 @@ class BoardInsideActivity : AppCompatActivity() {
         val imageViewFromFB = binding.imgArea
 
         storageReference.downloadUrl.addOnCompleteListener(OnCompleteListener { task ->
-            if(task.isSuccessful) {
+            if (task.isSuccessful) {
 
                 Glide.with(this)
                     .load(task.result)
                     .into(imageViewFromFB)
 
             } else {
-                binding.imgArea.isInvisible=false
+                binding.imgArea.isInvisible = false
             }
         })
 
@@ -137,15 +175,16 @@ class BoardInsideActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         super.onCreateOptionsMenu(menu)
         var mInflator = menuInflater
-        mInflator.inflate(R.menu.menu,menu)
+        mInflator.inflate(R.menu.menu, menu)
         return true
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         //return super.onOptionsItemSelected(item)
         when (item.itemId) {
             R.id.itemRed -> {
-              val intent = Intent(this,BoardEditActivity::class.java)
-                intent.putExtra("key",key)
+                val intent = Intent(this, BoardEditActivity::class.java)
+                intent.putExtra("key", key)
                 startActivity(intent)
                 return true
             }
@@ -155,13 +194,13 @@ class BoardInsideActivity : AppCompatActivity() {
 
 
 
-                dlg.setPositiveButton("취소"){ dialog,which ->
+                dlg.setPositiveButton("취소") { dialog, which ->
                     dialog.cancel()
                 }
                 dlg.setNegativeButton("확인") { dialog, which ->
-                        Toast.makeText(this,"삭제",Toast.LENGTH_SHORT).show()
-                        FBRef.boardRef.child(key).removeValue()
-                        }
+                    Toast.makeText(this, "삭제", Toast.LENGTH_SHORT).show()
+                    FBRef.boardRef.child(key).removeValue()
+                }
                 dlg.show()
                 return true
             }
