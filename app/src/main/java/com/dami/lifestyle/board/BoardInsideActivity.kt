@@ -30,6 +30,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.kakao.sdk.user.UserApiClient
 import java.net.URL
 import java.net.URLEncoder
 import kotlin.Unit.toString
@@ -37,13 +38,17 @@ import kotlin.Unit.toString
 class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
     private lateinit var key:String
+    //글쓴 사람과 현재 uid 비교
+    var MyUid:String?=null
+   var WriterUid:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_inside)
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.show()
+
+
+
         //setContentView(R.layout.activity_board_inside)
         /* val title = intent.getStringExtra("title").toString()
         val content = intent.getStringExtra("content").toString()
@@ -59,6 +64,7 @@ class BoardInsideActivity : AppCompatActivity() {
         Log.d("택1", key)
         getBoardData(key)
         getImgData(key)
+
 
 
 
@@ -81,7 +87,20 @@ class BoardInsideActivity : AppCompatActivity() {
                 binding.contentArea.text =dataModel!!.content
                 binding.timeArea.text =dataModel!!.time
                // binding.imgArea.
-                Log.d("스냅샷",dataModel!!.title.toString())
+
+                WriterUid = dataModel.uid
+
+
+                //writer만 보여주기
+                UserApiClient.instance.me { user, error ->
+                    MyUid = user!!.id.toString()
+                Log.d("택2",WriterUid.toString())
+                Log.d("택2", MyUid.toString())
+                if(MyUid.equals(WriterUid)){
+                    setSupportActionBar(binding.toolbar)
+                   }
+                }
+
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -89,6 +108,8 @@ class BoardInsideActivity : AppCompatActivity() {
             }
         }
         FBRef.boardRef.child(key).addValueEventListener(postListener)
+
+
     }
     private fun getImgData(key: String) {
 
