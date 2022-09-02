@@ -14,10 +14,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="40dp"
+            android:layout_width="260dp"
+            android:layout_height="70dp"
             android:layout_margin="10dp"
-            android:src="@drawable/min_logo"
+            android:src="@drawable/namelog"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

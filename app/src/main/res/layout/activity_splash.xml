@@ -5,12 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SplashActivity"
-    android:background="@color/mainColor">
+    android:background="#EFD28A">
 
     <ImageView
+        android:id="@+id/splashTextView"
+        android:layout_width="400dp"
+        android:layout_height="200dp"
+        android:src="@drawable/img_3"
+        app:layout_constraintBottom_toTopOf="@+id/splashImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.46"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.954" />
+
+    <!--1.아이콘이 화면 위에서 떨어지기
+         2. 통통튀게 한 후,
+          3.텍스트가 밑에서 위로 올라오게-->
+    <ImageView
+        android:id="@+id/splashImageView"
         android:layout_width="168dp"
         android:layout_height="149dp"
-        android:src="@drawable/logo"
+        android:src="@drawable/img_2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

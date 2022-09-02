@@ -44,30 +44,7 @@ class IntroActivity : AppCompatActivity() {
         /* val keyHash = Utility.getKeyHash(this)
         Log.d("Hash", keyHash)*/
         binding = DataBindingUtil.setContentView(this, R.layout.activity_intro)
-        binding.loginbtn.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-        }
-        binding.singupbtn.setOnClickListener {
-            val intent = Intent(this, SignupActivity::class.java)
-            startActivity(intent)
 
-        }
-        binding.nonMemloginbtn.setOnClickListener {
-            auth.signInAnonymously()
-                .addOnCompleteListener(this) { task ->
-                    if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
-                        Toast.makeText(this, "성공", Toast.LENGTH_SHORT).show()
-                        val intent = Intent(this, MainActivity::class.java)
-                        startActivity(intent)
-
-                    } else {
-                        // If sign in fails, display a message to the user.
-                        Toast.makeText(this, "실패", Toast.LENGTH_SHORT).show()
-                    }
-                }
-        }
         //kakao 로그인
 
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->

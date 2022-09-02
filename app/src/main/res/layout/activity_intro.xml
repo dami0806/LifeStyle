@@ -13,16 +13,10 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="600dp"
+                android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:src="@drawable/loginbg" />
+                android:src="@drawable/img" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:layout_alignParentBottom="true"
-                android:scaleType="fitXY"
-                android:src="@drawable/loginunderbg" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -31,44 +25,18 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="30dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="330dp"
                 android:orientation="vertical">
 
                 <Button
                     android:id="@+id/kakao_login_button"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:layout_margin="7dp"
                     android:background="@drawable/kakao_login"
-
                     android:textSize="20sp" />
 
-                <Button
-                    android:id="@+id/loginbtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_margin="7dp"
-                    android:background="@drawable/backgournd_radius"
-                    android:text="로그인"
-                    android:textSize="20sp" />
 
-                <Button
-                    android:id="@+id/singupbtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_margin="7dp"
-                    android:background="@drawable/backgournd_radius"
-                    android:text="회원 가입"
-                    android:textSize="20sp" />
-
-                <Button
-                    android:id="@+id/non_memloginbtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_margin="7dp"
-                    android:background="@drawable/backgournd_radius"
-                    android:text="비회원 로그인"
-                    android:textSize="20sp" />
             </LinearLayout>
 
 
