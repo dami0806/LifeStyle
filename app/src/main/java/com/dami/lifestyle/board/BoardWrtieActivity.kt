@@ -41,7 +41,7 @@ class BoardWrtieActivity : AppCompatActivity() {
                 val title = binding.titleArea.text.toString()
                 val content = binding.contentArea.text.toString()
                 val user = user!!.kakaoAccount!!.email
-                val uid = FBAuth.getUid()
+
                 val time = KakaoAuth.getTime()
                 val key = FBRef.boardRef.push().key.toString() //이미지이름에 쓰려고 먼저 키값 받아옴
                 if(isImgUpload==true){
@@ -53,7 +53,7 @@ class BoardWrtieActivity : AppCompatActivity() {
 
                 FBRef.boardRef
                     .child(key)
-                    .setValue(BoardModel(title, content,uid, time,user.toString()))
+                    .setValue(BoardModel(title, content, time,user.toString()))
                 /* .child(user!!.id.toString())
                     .child(key)
                     .setValue(BookmarkModel(true))*/ //title,content,uid,time

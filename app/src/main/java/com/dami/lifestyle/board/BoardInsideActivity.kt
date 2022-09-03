@@ -30,7 +30,7 @@ class BoardInsideActivity : AppCompatActivity() {
     private lateinit var key: String
     var User: String? = null
     //글쓴 사람과 현재 uid 비교
-    var MyUid: String? = null
+
     var WriterUid: String? = null
 
     private var commentDataList = mutableListOf<CommentModel>()
@@ -75,21 +75,16 @@ class BoardInsideActivity : AppCompatActivity() {
                 commentDataList.clear()
                 for (dataModel in dataSnapshot.children) {
                     val item = dataModel.getValue(CommentModel::class.java)
-
                     commentDataList.add(item!!)
-
 
                 }
                 CommentLVAdapter.notifyDataSetChanged()//어댑터 동기화
-
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-
             }
         }
         FBRef.commentRef.child(key).addValueEventListener(postListener)
-
     }
 
     fun InsertComment(key: String) {
@@ -118,7 +113,6 @@ class BoardInsideActivity : AppCompatActivity() {
 
     private fun getBoardData(key: String) {
 
-
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 //Log.d("스냅샷",dataSnapshot.toString())
@@ -129,16 +123,18 @@ class BoardInsideActivity : AppCompatActivity() {
                 binding.userArea.text = dataModel!!.user
                 // binding.imgArea.
 
-                WriterUid = dataModel!!.uid
+               WriterUid = dataModel!!.user
+//글쓴이는 user
 
 
                 //writer만 보여주기
+                //이건 현재
                 UserApiClient.instance.me { user, error ->
-                    MyUid = user!!.id.toString()
+
                     User = user!!.kakaoAccount!!.email
                     Log.d("택2", WriterUid.toString())
-                    Log.d("택2", MyUid.toString())
-                    if (MyUid.equals(WriterUid)) {
+                    Log.d("택2", User.toString())
+                    if (User.equals(WriterUid)) {
                         setSupportActionBar(binding.toolbar)
 
                     }
