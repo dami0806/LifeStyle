@@ -1,27 +1,21 @@
 package com.dami.lifestyle.board
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import com.dami.lifestyle.FBAuth
 import com.dami.lifestyle.FBRef
 import com.dami.lifestyle.KakaoAuth
 import com.dami.lifestyle.R
-import com.dami.lifestyle.R.layout.activity_board_wrtie
-import com.dami.lifestyle.contentsList.BookmarkModel
 import com.dami.lifestyle.databinding.ActivityBoardWrtieBinding
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.kakao.sdk.user.UserApiClient
 import java.io.ByteArrayOutputStream
-import kotlin.Unit.toString
 
 class BoardWrtieActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardWrtieBinding

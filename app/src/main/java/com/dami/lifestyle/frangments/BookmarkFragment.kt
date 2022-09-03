@@ -1,21 +1,17 @@
 package com.dami.lifestyle.frangments
 
-import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.inflate
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.dami.lifestyle.FBAuth
 import com.dami.lifestyle.FBRef
 import com.dami.lifestyle.R
-import com.dami.lifestyle.contentsList.BookmarkModel
 import com.dami.lifestyle.contentsList.BookmarkRVAdapter
 import com.dami.lifestyle.contentsList.ContentModel
 import com.dami.lifestyle.databinding.FragmentBookmarkBinding
