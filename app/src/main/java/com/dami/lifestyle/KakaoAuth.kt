@@ -17,16 +17,10 @@ class KakaoAuth {
 
         companion object {
 
-
             private lateinit var auth:String
 
-           /* fun getUid(): String {
 
-                auth = user.id
 
-                return auth.currentUser?.uid.toString()
-
-            }*/
             fun getTime():String{
                 val currentDateTime = Calendar.getInstance().time
                val dateFormat= SimpleDateFormat("yyyy.MM.dd HH:mm:ss",Locale.KOREA).format(currentDateTime)

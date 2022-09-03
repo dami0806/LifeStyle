@@ -28,7 +28,7 @@ import com.kakao.sdk.user.UserApiClient
 class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
     private lateinit var key: String
-
+    var User: String? = null
     //글쓴 사람과 현재 uid 비교
     var MyUid: String? = null
     var WriterUid: String? = null
@@ -98,19 +98,21 @@ class BoardInsideActivity : AppCompatActivity() {
         // - CommentKey
         // - CommentData
         // - CommentData
-        FBRef.commentRef
-            .child(key)
-            .push()
-            .setValue(
-                CommentModel(
-                    binding.commentArea.text.toString(),
-                    KakaoAuth.getTime()
+        UserApiClient.instance.me { user, error ->
+            FBRef.commentRef
+                .child(key)
+                .push()
+                .setValue(
+                    CommentModel(
+                        user!!.kakaoAccount?.email,
+                        binding.commentArea.text.toString(),
+                        KakaoAuth.getTime()
+                    )
                 )
-            )
-        Toast.makeText(this, "댓글이 작성되었습니다.", Toast.LENGTH_SHORT).show()
-        binding.commentArea.setText("")
+            Toast.makeText(this, "댓글이 작성되었습니다.", Toast.LENGTH_SHORT).show()
+            binding.commentArea.setText("")
 
-
+        }
     }
 
 
@@ -124,21 +126,25 @@ class BoardInsideActivity : AppCompatActivity() {
                 binding.titleArea.text = dataModel!!.title
                 binding.contentArea.text = dataModel!!.content
                 binding.timeArea.text = dataModel!!.time
+                binding.userArea.text = dataModel!!.user
                 // binding.imgArea.
 
-                WriterUid = dataModel.uid
+                WriterUid = dataModel!!.uid
 
 
                 //writer만 보여주기
                 UserApiClient.instance.me { user, error ->
                     MyUid = user!!.id.toString()
+                    User = user!!.kakaoAccount!!.email
                     Log.d("택2", WriterUid.toString())
                     Log.d("택2", MyUid.toString())
                     if (MyUid.equals(WriterUid)) {
                         setSupportActionBar(binding.toolbar)
-                    }
-                }
 
+                    }
+
+
+                }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

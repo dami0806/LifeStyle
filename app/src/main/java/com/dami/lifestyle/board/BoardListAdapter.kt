@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.dami.lifestyle.R
+import org.w3c.dom.Text
 
 class BoardListAdapter(val boardList:MutableList<BoardModel>):BaseAdapter(){
     override fun getCount(): Int {
@@ -35,6 +36,8 @@ class BoardListAdapter(val boardList:MutableList<BoardModel>):BaseAdapter(){
         val time=convertview?.findViewById<TextView>(R.id.time)
         time!!.text = boardList[position].time
 
+        val user = convertview?.findViewById<TextView>(R.id.user)
+        user!!.text = boardList[position].user
         return convertview!!
     }
 

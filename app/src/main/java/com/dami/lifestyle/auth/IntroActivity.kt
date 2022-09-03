@@ -109,6 +109,7 @@ class IntroActivity : AppCompatActivity() {
                     else {
                         Log.d("DEBUG","user info: null")
                     }
+
                 }
 
 
