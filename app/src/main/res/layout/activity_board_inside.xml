@@ -76,22 +76,16 @@
                     android:layout_width="300dp"
                     android:layout_height="300dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_margin="20dp" />
+                    android:layout_margin="20dp"
+                   />
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/black" />
+                    android:layout_height="10dp"
+                    android:background="#EDEDED" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/white" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/black" />
 
                 <ListView
                     android:id="@+id/commentLV"
@@ -106,23 +100,44 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/white">
+            android:background="@color/white"
+            >
 
-            <EditText
-                android:id="@+id/commentArea"
+            <LinearLayout
+
                 android:layout_width="320dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
-                android:hint="   댓글을 입력해주세요"
-                android:background="@drawable/edittext_rectangle"/>
+                android:layout_gravity="center"
+                android:background="@drawable/edittext_rectangle">
+
+                <EditText
+                    android:id="@+id/commentArea"
+                    android:layout_width="320dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:hint="댓글을 입력해주세요"
+                    android:background="@android:color/transparent"/>
+            </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/edittext_rectangle">
 
             <ImageView
                 android:id="@+id/commentBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="50dp"
-                android:src="@drawable/sendimg"
-                android:layout_marginRight="20dp"
-               />
+                android:layout_width="55dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center"
+
+                android:src="@drawable/sendimg" />
+        </LinearLayout>
 
 
         </LinearLayout>

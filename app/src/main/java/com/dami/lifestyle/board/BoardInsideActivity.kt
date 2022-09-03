@@ -34,7 +34,7 @@ class BoardInsideActivity : AppCompatActivity() {
     var WriterUid: String? = null
 
     private var commentDataList = mutableListOf<CommentModel>()
-    private lateinit var commentRVAdapter: CommentLVAdapter
+    private lateinit var CommentLVAdapter: CommentLVAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,8 +63,8 @@ class BoardInsideActivity : AppCompatActivity() {
             //댓글 입력
             InsertComment(key)
         }
-        commentRVAdapter = CommentLVAdapter(commentDataList)
-        binding.commentLV.adapter = commentRVAdapter
+        CommentLVAdapter = CommentLVAdapter(commentDataList)
+        binding.commentLV.adapter = CommentLVAdapter
         getCommentData(key)
     }
 
@@ -80,7 +80,7 @@ class BoardInsideActivity : AppCompatActivity() {
 
 
                 }
-                commentRVAdapter.notifyDataSetChanged()//어댑터 동기화
+                CommentLVAdapter.notifyDataSetChanged()//어댑터 동기화
 
             }
 
@@ -107,7 +107,7 @@ class BoardInsideActivity : AppCompatActivity() {
                     KakaoAuth.getTime()
                 )
             )
-        Toast.makeText(this, "댓글이 작성되었습니다. ", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "댓글이 작성되었습니다.", Toast.LENGTH_SHORT).show()
         binding.commentArea.setText("")
 
 
@@ -166,7 +166,8 @@ class BoardInsideActivity : AppCompatActivity() {
                     .into(imageViewFromFB)
 
             } else {
-                binding.imgArea.isInvisible = false
+              binding.imgArea.isInvisible = false
+
             }
         })
 
