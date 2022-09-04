@@ -12,6 +12,116 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        
+      <!--  내가쓴글 댓글 단 글 스크랩 내 email, kakaoimg,-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/background_radius_gray"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="90dp"
+            android:orientation="vertical">
+
+            //내가 쓴 글
+
+                <ImageView
+                    android:padding="10dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/mystoryimg"
+                    />
+
+            //내가 쓴 글
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+            <ImageView
+                android:padding="10dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/mystoryimg"
+                />
+        <TextView
+            android:id="@+id/myStory"
+            android:text="내가 쓴 글"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp"/>
+
+            </LinearLayout>
+
+            //댓글 단 글
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:padding="10dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/mycomment"
+                    />
+                <TextView
+                    android:id="@+id/myComment"
+                    android:text="댓글 단 글"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"/>
+
+            </LinearLayout>
+            //내가 쓴 글
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:padding="10dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/mystoryimg"
+                    />
+                <TextView
+                    android:id="@+id/myScrap"
+                    android:text="스크랩글"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"/>
+
+
+            </LinearLayout>
+
+            //내가 쓴 글
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:padding="10dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/mystoryimg"
+                    />
+                <TextView
+                    android:id="@+id/myBookmark"
+                    android:text="북마크"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"/>
+
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
 
         <LinearLayout
 

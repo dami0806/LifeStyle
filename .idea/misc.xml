@@ -5,17 +5,19 @@
       <map>
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/drawable-v24/backgournd_radius.xml" value="0.1" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/drawable-v24/backgournd_radius_yellow.xml" value="0.1" />
+        <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/drawable/background_radius_gray.xml" value="0.236" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/drawable/content_rv_item.xml" value="0.1" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/drawable/edittext_rectangle.xml" value="0.1" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_board_edit.xml" value="0.16" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_board_inside.xml" value="0.4" />
-        <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_board_wrtie.xml" value="0.10077519379844961" />
+        <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_board_wrtie.xml" value="0.2" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_content_list.xml" value="0.264" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_content_show.xml" value="0.1" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_intro.xml" value="0.17685185185185184" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_main2.xml" value="0.1" />
+        <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_my_page.xml" value="0.2" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_signup.xml" value="0.176" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_signup2.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/activity_signup3.xml" value="0.25364583333333335" />
@@ -27,8 +29,8 @@
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/fragment_bookmark.xml" value="0.16" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/fragment_home.xml" value="0.1" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/fragment_share_data.xml" value="0.176" />
-        <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/fragment_store.xml" value="0.1" />
-        <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/fragment_talk.xml" value="0.1" />
+        <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/fragment_store.xml" value="0.264" />
+        <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/fragment_talk.xml" value="0.12" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/layout/fragment_tip.xml" value="0.144" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/menu/menu.xml" value="0.1" />
         <entry key="..\:/Users/dami0/LifeStyle/app/src/main/res/menu/option_menu.xml" value="0.20430561418319967" />

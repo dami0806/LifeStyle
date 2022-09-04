@@ -17,10 +17,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LifeStyle"
-
         android:usesCleartextTraffic="true"
         tools:ignore="Instantiatable"
         tools:targetApi="31">
+        <activity
+            android:name=".mypage.MyPageActivity"
+            android:exported="false" />
         <activity
             android:name=".board.BoardEditActivity"
             android:exported="false" />
@@ -41,16 +43,14 @@
             android:exported="true" />
         <activity
             android:name=".SplashActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity
             android:name=".MainActivity"
             android:exported="true" />

@@ -93,9 +93,10 @@ class TalkFragment : Fragment() {
 
                     boardDataList.add(item!!)
                     boardKeyList.add(dataModel.key.toString())
-                    boardDataList.reverse()
-                    boardKeyList.reverse()
+
                 }
+                boardDataList.reverse()
+                boardKeyList.reverse()
                 boardRVAdapter.notifyDataSetChanged()//어댑터 동기화
 
             }

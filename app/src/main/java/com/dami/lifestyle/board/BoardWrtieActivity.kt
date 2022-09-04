@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.dami.lifestyle.FBRef
@@ -39,6 +40,7 @@ class BoardWrtieActivity : AppCompatActivity() {
                 val time = KakaoAuth.getTime()
                 val key = FBRef.boardRef.push().key.toString() //이미지이름에 쓰려고 먼저 키값 받아옴
                 if(isImgUpload==true){
+                    binding.imgArea.visibility= View.VISIBLE
                 imgUpload(key)}
                 /*   Log.d(TAG,title)
             Log.d(TAG,content)*/

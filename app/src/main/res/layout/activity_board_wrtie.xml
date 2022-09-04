@@ -39,9 +39,10 @@
                 <EditText
                     android:id="@+id/titleArea"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="30dp"
                     android:layout_margin="20dp"
-                    android:hint="제목" />
+                    android:hint="제목"
+                    android:background="@android:color/transparent"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -54,7 +55,9 @@
                     android:id="@+id/contentArea"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:hint="내용을 입력하세요" />
+                    android:layout_margin="20dp"
+                    android:hint="내용을 입력하세요"
+                    android:background="@android:color/transparent"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -63,31 +66,34 @@
                     android:layout_marginRight="20dp"
                     android:background="@color/black" />
 
+
                 <ImageView
                     android:id="@+id/imgbtn"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginLeft="20dp"
                     android:src="@drawable/plusimg" />
                 <ImageView
                     android:id="@+id/imgArea"
                     android:layout_width="300dp"
                     android:layout_height="300dp"
                     android:layout_marginTop="10dp"
-                    android:layout_gravity="center_horizontal" />
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="gone"/>
 
 
 
                 <Button
                     android:id="@+id/savebtn"
-                    android:layout_width="match_parent"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginTop="100dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="100dp"
                     android:background="@drawable/backgournd_radius_yellow"
                     android:text="입력" />
             </LinearLayout>
+
         </ScrollView>
 
     </LinearLayout>
