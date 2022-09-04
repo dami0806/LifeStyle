@@ -4,8 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isInvisible
@@ -213,6 +215,50 @@ class BoardInsideActivity : AppCompatActivity() {
         return false
 
     }
+   /* //댓글 수정 삭제
+    private fun CommentSetting(){
+        val mDialogView =LayoutInflater.from(this).inflate(R.layout.boardcomment_item,null)
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("댓글 수정/삭제")
+
+        val alertDialog = mBuilder.show()
+        alertDialog.findViewById<ImageView>(R.id.commentSetting)?.setOnClickListener {
+            Toast.makeText(this, "수정 버튼을 눌렀습니다", Toast.LENGTH_LONG).show()
+
+        }
+
+
+
+        }*/
+/* private fun showDialog(){
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("게시글 수정/삭제")
+
+        val alertDialog = mBuilder.show()
+        alertDialog.findViewById<Button>(R.id.editBtn)?.setOnClickListener {
+            Toast.makeText(this, "수정 버튼을 눌렀습니다", Toast.LENGTH_LONG).show()
+
+            val intent = Intent(this, BoardEditActivity::class.java)
+            intent.putExtra("key",key)
+            startActivity(intent)
+        }
+
+        alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener {
+
+            FBRef.boardRef.child(key).removeValue()
+            Toast.makeText(this, "삭제완료", Toast.LENGTH_LONG).show()
+            finish()
+
+        }
+
+
+
+    }*/
+
 
 
 }
