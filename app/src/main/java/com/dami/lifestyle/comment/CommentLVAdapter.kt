@@ -1,5 +1,6 @@
 package com.dami.lifestyle.comment
 
+import android.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.dami.lifestyle.R
 import com.kakao.sdk.user.UserApiClient
+import kotlin.coroutines.coroutineContext
 
 class CommentLVAdapter(val commentList : MutableList<CommentModel>): BaseAdapter() {
     override fun getCount(): Int {
@@ -49,6 +51,7 @@ class CommentLVAdapter(val commentList : MutableList<CommentModel>): BaseAdapter
 
             if (commentList[position].commentUser.equals( User)) {
                 commentSetting!!.visibility = View.VISIBLE
+
             }
             else{
                 commentSetting!!.visibility = View.GONE
@@ -56,7 +59,9 @@ class CommentLVAdapter(val commentList : MutableList<CommentModel>): BaseAdapter
 
         }
 
+
         //댓글 수정 삭제
+
 
     /*    val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
         val mBuilder = AlertDialog.Builder(this)
@@ -82,6 +87,8 @@ class CommentLVAdapter(val commentList : MutableList<CommentModel>): BaseAdapter
 
             return convertview!!
         }
+
+
 
 }
 

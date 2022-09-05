@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -26,10 +27,12 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.android.synthetic.main.activity_board_inside.*
 
 class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
     private lateinit var key: String
+
     var User: String? = null
     //글쓴 사람과 현재 uid 비교
 
@@ -68,7 +71,17 @@ class BoardInsideActivity : AppCompatActivity() {
         CommentLVAdapter = CommentLVAdapter(commentDataList)
         binding.commentLV.adapter = CommentLVAdapter
         getCommentData(key)
+
+
+        //댓글 수정
+        fun ModifyCommentData(key: String) {
+//comment 아래 board아래 commentkey 아래 comment 데이터들
+
+        }
+        //댓글 삭제
     }
+
+
 
     fun getCommentData(key: String) {
 //comment 아래 board아래 commentkey 아래 comment 데이터들
@@ -78,11 +91,9 @@ class BoardInsideActivity : AppCompatActivity() {
                 for (dataModel in dataSnapshot.children) {
                     val item = dataModel.getValue(CommentModel::class.java)
                     commentDataList.add(item!!)
-
                 }
                 CommentLVAdapter.notifyDataSetChanged()//어댑터 동기화
             }
-
             override fun onCancelled(databaseError: DatabaseError) {
             }
         }
@@ -111,6 +122,36 @@ class BoardInsideActivity : AppCompatActivity() {
 
         }
     }
+    //댓글 수정
+    private fun commentDialog(){
+
+        val mDialogView = LayoutInflater.from(this).inflate(R.layout.comment_dialog, null)
+        val mBuilder = AlertDialog.Builder(this)
+            .setView(mDialogView)
+            .setTitle("게시글 수정/삭제")
+
+        val alertDialog = mBuilder.show()
+        alertDialog.findViewById<Button>(R.id.editBtn)?.setOnClickListener {
+            Toast.makeText(this, "수정 버튼을 눌렀습니다", Toast.LENGTH_LONG).show()
+
+        /*    val intent = Intent(this, BoardEditActivity::class.java)
+            intent.putExtra("key",key)
+            startActivity(intent)*/
+        }
+
+        alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener {
+
+          //  FBRef.boardRef.child(key).removeValue()
+            Toast.makeText(this, "삭제완료", Toast.LENGTH_LONG).show()
+            finish()
+
+        }
+
+
+
+    }
+
+
 
 
     private fun getBoardData(key: String) {
@@ -215,7 +256,7 @@ class BoardInsideActivity : AppCompatActivity() {
         return false
 
     }
-   /* //댓글 수정 삭제
+    //댓글 수정 삭제
     private fun CommentSetting(){
         val mDialogView =LayoutInflater.from(this).inflate(R.layout.boardcomment_item,null)
         val mBuilder = AlertDialog.Builder(this)
@@ -230,34 +271,8 @@ class BoardInsideActivity : AppCompatActivity() {
 
 
 
-        }*/
-/* private fun showDialog(){
-
-        val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
-        val mBuilder = AlertDialog.Builder(this)
-            .setView(mDialogView)
-            .setTitle("게시글 수정/삭제")
-
-        val alertDialog = mBuilder.show()
-        alertDialog.findViewById<Button>(R.id.editBtn)?.setOnClickListener {
-            Toast.makeText(this, "수정 버튼을 눌렀습니다", Toast.LENGTH_LONG).show()
-
-            val intent = Intent(this, BoardEditActivity::class.java)
-            intent.putExtra("key",key)
-            startActivity(intent)
         }
 
-        alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener {
-
-            FBRef.boardRef.child(key).removeValue()
-            Toast.makeText(this, "삭제완료", Toast.LENGTH_LONG).show()
-            finish()
-
-        }
-
-
-
-    }*/
 
 
 
