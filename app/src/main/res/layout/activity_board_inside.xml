@@ -107,12 +107,14 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
-                    android:background="#EDEDED" />
+                    android:background="#EDEDED"
+                />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:background="#FFFFFF">
                     <ImageView
+                        android:id="@+id/scrap"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:src="@drawable/nostar"

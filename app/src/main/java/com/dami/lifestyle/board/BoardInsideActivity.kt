@@ -4,11 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isInvisible
@@ -19,6 +16,7 @@ import com.dami.lifestyle.KakaoAuth
 import com.dami.lifestyle.R
 import com.dami.lifestyle.comment.CommentLVAdapter
 import com.dami.lifestyle.comment.CommentModel
+import com.dami.lifestyle.contentsList.BookmarkModel
 import com.dami.lifestyle.databinding.ActivityBoardInsideBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
@@ -32,7 +30,7 @@ import kotlinx.android.synthetic.main.activity_board_inside.*
 class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
     private lateinit var key: String
-
+    private var  boardmarkIdList = mutableListOf<String>() //보드마트 키 값들
     var User: String? = null
     //글쓴 사람과 현재 uid 비교
 
@@ -63,6 +61,45 @@ class BoardInsideActivity : AppCompatActivity() {
         Log.d("택1", key)
         getBoardData(key)
         getImgData(key)
+        getboardmarkData()
+
+       val boardkey = intent.getStringExtra("key") //현재 클릭된 보드
+       // val boardIdListkey = intent.getStringArrayListExtra("boardlistkey") //전체 보드
+
+        Log.d("비교",key)
+        Log.d("비교",boardkey.toString())
+        Log.d("비교",boardmarkIdList.toString())
+        Log.d("보보드", boardmarkIdList.toString())
+        UserApiClient.instance.me { user, error ->
+            if (boardmarkIdList!!.contains(key)) {
+                binding.scrap.setImageResource(R.drawable.star)
+
+            } else {
+                binding.scrap.setImageResource(R.drawable.nostar)
+            }
+
+          /*  binding.scrap.setOnClickListener {
+                if (boardmarkIdList!!.contains(key)) {
+                    //북마크가 있을때
+                    binding.scrap.setImageResource(R.drawable.nostar)
+                    boardmarkIdList.remove(key)
+                    FBRef.boardmarkRef
+                        .child(user!!.id.toString())
+                        .child(key)
+                        .removeValue()
+                } else {
+                    //북마크가 없을때
+                    binding.scrap.setImageResource(R.drawable.star)
+                    FBRef.boardmarkRef
+                        .child(user!!.id.toString())
+                        .child(key)
+                        .setValue(BoardmarkModel(true))
+                }
+            }*/
+
+
+        }
+
 
         binding.commentBtn.setOnClickListener {
             //댓글 입력
@@ -73,12 +110,7 @@ class BoardInsideActivity : AppCompatActivity() {
         getCommentData(key)
 
 
-        //댓글 수정
-        fun ModifyCommentData(key: String) {
-//comment 아래 board아래 commentkey 아래 comment 데이터들
 
-        }
-        //댓글 삭제
     }
 
 
@@ -122,34 +154,7 @@ class BoardInsideActivity : AppCompatActivity() {
 
         }
     }
-    //댓글 수정
-    private fun commentDialog(){
 
-        val mDialogView = LayoutInflater.from(this).inflate(R.layout.comment_dialog, null)
-        val mBuilder = AlertDialog.Builder(this)
-            .setView(mDialogView)
-            .setTitle("게시글 수정/삭제")
-
-        val alertDialog = mBuilder.show()
-        alertDialog.findViewById<Button>(R.id.editBtn)?.setOnClickListener {
-            Toast.makeText(this, "수정 버튼을 눌렀습니다", Toast.LENGTH_LONG).show()
-
-        /*    val intent = Intent(this, BoardEditActivity::class.java)
-            intent.putExtra("key",key)
-            startActivity(intent)*/
-        }
-
-        alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener {
-
-          //  FBRef.boardRef.child(key).removeValue()
-            Toast.makeText(this, "삭제완료", Toast.LENGTH_LONG).show()
-            finish()
-
-        }
-
-
-
-    }
 
 
 
@@ -191,6 +196,10 @@ class BoardInsideActivity : AppCompatActivity() {
             }
         }
         FBRef.boardRef.child(key).addValueEventListener(postListener)
+
+        Log.d("보드2",FBRef.boardRef.child(key).toString())
+
+
 
 
     }
@@ -256,23 +265,55 @@ class BoardInsideActivity : AppCompatActivity() {
         return false
 
     }
-    //댓글 수정 삭제
-    private fun CommentSetting(){
-        val mDialogView =LayoutInflater.from(this).inflate(R.layout.boardcomment_item,null)
-        val mBuilder = AlertDialog.Builder(this)
-            .setView(mDialogView)
-            .setTitle("댓글 수정/삭제")
+    private fun getboardmarkData() {
 
-        val alertDialog = mBuilder.show()
-        alertDialog.findViewById<ImageView>(R.id.commentSetting)?.setOnClickListener {
-            Toast.makeText(this, "수정 버튼을 눌렀습니다", Toast.LENGTH_LONG).show()
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (dataModel in dataSnapshot.children) {
+                    boardmarkIdList.add(dataModel.key.toString()) // 키 값들
+                    Log.d("보보드", boardmarkIdList.toString()) // 리스트 값에 저장된 키값들 잘 나온다.
+                    UserApiClient.instance.me { user, error ->
+                        if (boardmarkIdList!!.contains(key)) {
+                            binding.scrap.setImageResource(R.drawable.star)
+
+                        } else {
+                            binding.scrap.setImageResource(R.drawable.nostar)
+                        }
+
+                        binding.scrap.setOnClickListener {
+                            if (boardmarkIdList!!.contains(key)) {
+                                //북마크가 있을때
+                                binding.scrap.setImageResource(R.drawable.nostar)
+                                boardmarkIdList.remove(key)
+                                FBRef.boardmarkRef
+                                    .child(user!!.id.toString())
+                                    .child(key)
+                                    .removeValue()
+                            } else {
+                                //북마크가 없을때
+                                binding.scrap.setImageResource(R.drawable.star)
+                                FBRef.boardmarkRef
+                                    .child(user!!.id.toString())
+                                    .child(key)
+                                    .setValue(BoardmarkModel(true))
+                            }
+                        }
+
+
+                    }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
+        }
+        UserApiClient.instance.me { user, error ->
+            FBRef.boardmarkRef.child(user!!.id.toString()).addValueEventListener(postListener)
 
         }
 
-
-
-        }
-
+    }
 
 
 

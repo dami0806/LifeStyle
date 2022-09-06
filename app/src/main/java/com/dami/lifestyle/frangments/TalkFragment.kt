@@ -28,8 +28,8 @@ class TalkFragment : Fragment() {
     private lateinit var binding: FragmentTalkBinding
     private val boardDataList= mutableListOf<BoardModel>()//데이터 담기
     private lateinit var boardRVAdapter: BoardListAdapter
-    private var boardKeyList = mutableListOf<String>()
-
+    private var boardKeyList = ArrayList<String>()
+    private var bookmarkIdList = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +51,7 @@ class TalkFragment : Fragment() {
 
 
 
-       boardRVAdapter = BoardListAdapter(boardDataList)
+       boardRVAdapter = BoardListAdapter(boardDataList,bookmarkIdList)
         binding.boardLV.adapter = boardRVAdapter
         binding.boardLV.setOnItemClickListener{ parent, view, position, id->
 
@@ -60,6 +60,9 @@ class TalkFragment : Fragment() {
             intent.putExtra("content",boardDataList[position].content)
             intent.putExtra("time",boardDataList[position].time)
 */          intent.putExtra("key",boardKeyList[position])
+            intent.putStringArrayListExtra("boardlistkey",boardKeyList)
+            Log.d("보드3",boardKeyList.toString())
+           /* boardmarkKeyList*/
             startActivity(intent)
 
         }

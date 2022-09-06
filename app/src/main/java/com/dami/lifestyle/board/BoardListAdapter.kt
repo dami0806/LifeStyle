@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.dami.lifestyle.R
 import org.w3c.dom.Text
 
-class BoardListAdapter(val boardList:MutableList<BoardModel>):BaseAdapter(){
+class BoardListAdapter(val boardList:MutableList<BoardModel>, val bookmarkIdList: MutableList<String>):BaseAdapter(){
     override fun getCount(): Int {
         return boardList.size
     }
@@ -39,6 +39,7 @@ class BoardListAdapter(val boardList:MutableList<BoardModel>):BaseAdapter(){
         val user = convertview?.findViewById<TextView>(R.id.user)
         user!!.text = boardList[position].user
         return convertview!!
+
     }
 
 }

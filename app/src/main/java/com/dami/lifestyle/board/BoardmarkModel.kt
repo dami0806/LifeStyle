@@ -1,5 +1,5 @@
 package com.dami.lifestyle.board
 
-class BoardmarkModel {
+class BoardmarkModel(
     val BoardmarkIsTrue: Boolean?=null
-}
+    )
