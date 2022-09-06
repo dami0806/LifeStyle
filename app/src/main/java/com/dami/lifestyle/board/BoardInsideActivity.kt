@@ -78,7 +78,7 @@ class BoardInsideActivity : AppCompatActivity() {
                 binding.scrap.setImageResource(R.drawable.nostar)
             }
 
-          /*  binding.scrap.setOnClickListener {
+            binding.scrap.setOnClickListener {
                 if (boardmarkIdList!!.contains(key)) {
                     //북마크가 있을때
                     binding.scrap.setImageResource(R.drawable.nostar)
@@ -95,7 +95,7 @@ class BoardInsideActivity : AppCompatActivity() {
                         .child(key)
                         .setValue(BoardmarkModel(true))
                 }
-            }*/
+            }
 
 
         }
