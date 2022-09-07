@@ -12,6 +12,7 @@ import com.dami.lifestyle.R
 import com.dami.lifestyle.board.BoardWrtieActivity
 import com.dami.lifestyle.board.BoardmarkActivity
 import com.dami.lifestyle.databinding.FragmentStoreBinding
+import com.dami.lifestyle.mypage.MyPageActivity
 
 class StoreFragment : Fragment() {
     private lateinit var binding:FragmentStoreBinding
@@ -27,6 +28,13 @@ class StoreFragment : Fragment() {
     ): View? {
 
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_store,container,false)
+        binding.myStory.setOnClickListener {
+            val intent = Intent(context, MyPageActivity::class.java)
+            startActivity(intent)
+        }
+        binding.myComment.setOnClickListener {
+
+        }
         binding.myScrap.setOnClickListener {
             val intent = Intent(context, BoardmarkActivity::class.java)
             startActivity(intent)
