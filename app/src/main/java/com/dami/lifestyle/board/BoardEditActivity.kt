@@ -3,6 +3,7 @@ package com.dami.lifestyle.board
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
@@ -32,6 +33,10 @@ class BoardEditActivity : AppCompatActivity() {
         key = intent.getStringExtra("key").toString()
         getBoardData(key)
         getImgData(key)
+        if(getImgData(key)!=null){
+            binding.imgArea.visibility= View.VISIBLE
+
+        }
         binding.editbtn.setOnClickListener {
             editBoardData(key)
         }

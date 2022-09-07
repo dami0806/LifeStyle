@@ -30,7 +30,6 @@ import kotlinx.android.synthetic.main.activity_board_inside.*
 class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
     private lateinit var key: String
-    private lateinit var markkey: String
     private var  boardmarkIdList = mutableListOf<String>() //보드마트 키 값들
     var User: String? = null
     //글쓴 사람과 현재 uid 비교
@@ -65,10 +64,7 @@ class BoardInsideActivity : AppCompatActivity() {
         getBoardData(key)
         getImgData(key)
 
-        //보드마크꺼
-      /*  markkey = intent.getStringExtra("key1").toString()
-        getBoardData(markkey)
-        getImgData(markkey)*/
+
 
         getboardmarkData()
 
@@ -91,7 +87,8 @@ class BoardInsideActivity : AppCompatActivity() {
             binding.scrap.setOnClickListener {
                 if (boardmarkIdList!!.contains(key)) {
                     //북마크가 있을때
-                    binding.scrap.setImageResource(R.drawable.nostar)
+                    Toast.makeText(this,"스크랩 삭제",Toast.LENGTH_SHORT).show()
+                binding.scrap.setImageResource(R.drawable.nostar)
                     boardmarkIdList.remove(key)
                     FBRef.boardmarkRef
                         .child(user!!.id.toString())
@@ -99,6 +96,7 @@ class BoardInsideActivity : AppCompatActivity() {
                         .removeValue()
                 } else {
                     //북마크가 없을때
+                    Toast.makeText(this,"스크랩 저장",Toast.LENGTH_SHORT).show()
                     binding.scrap.setImageResource(R.drawable.star)
                     FBRef.boardmarkRef
                         .child(user!!.id.toString())

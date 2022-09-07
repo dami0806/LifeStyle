@@ -29,6 +29,7 @@ class BoardWrtieActivity : AppCompatActivity() {
         binding.imgbtn.setOnClickListener {
             val gallery = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.INTERNAL_CONTENT_URI)
             startActivityForResult(gallery,0)
+            binding.imgArea.visibility= View.VISIBLE
             isImgUpload = true
         }
         binding.savebtn.setOnClickListener {
@@ -40,7 +41,7 @@ class BoardWrtieActivity : AppCompatActivity() {
                 val time = KakaoAuth.getTime()
                 val key = FBRef.boardRef.push().key.toString() //이미지이름에 쓰려고 먼저 키값 받아옴
                 if(isImgUpload==true){
-                    binding.imgArea.visibility= View.VISIBLE
+                 // binding.imgArea.visibility= View.VISIBLE
                 imgUpload(key)}
                 /*   Log.d(TAG,title)
             Log.d(TAG,content)*/
@@ -50,9 +51,6 @@ class BoardWrtieActivity : AppCompatActivity() {
                 FBRef.boardRef
                     .child(key)
                     .setValue(BoardModel(title, content, time,user.toString()))
-                /* .child(user!!.id.toString())
-                    .child(key)
-                    .setValue(BookmarkModel(true))*/ //title,content,uid,time
                 Toast.makeText(this,"게시글이 작성되었습니다.",Toast.LENGTH_SHORT).show()
                 finish() //activity끝내기
 
