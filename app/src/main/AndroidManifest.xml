@@ -21,7 +21,7 @@
         tools:ignore="Instantiatable"
         tools:targetApi="31">
         <activity
-            android:name=".BoardmarkActivity"
+            android:name=".board.BoardmarkActivity"
             android:exported="false" />
         <activity
             android:name=".mypage.MyPageActivity"
