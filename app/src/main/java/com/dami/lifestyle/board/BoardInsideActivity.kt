@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_board_inside.*
 class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
     private lateinit var key: String
+    private lateinit var markkey: String
     private var  boardmarkIdList = mutableListOf<String>() //보드마트 키 값들
     var User: String? = null
     //글쓴 사람과 현재 uid 비교
@@ -57,10 +58,18 @@ class BoardInsideActivity : AppCompatActivity() {
         binding.contentArea.text = content
         binding.timeArea.text = time
 */
+
+
         key = intent.getStringExtra("key").toString()
         Log.d("택1", key)
         getBoardData(key)
         getImgData(key)
+
+        //보드마크꺼
+      /*  markkey = intent.getStringExtra("key1").toString()
+        getBoardData(markkey)
+        getImgData(markkey)*/
+
         getboardmarkData()
 
        val boardkey = intent.getStringExtra("key") //현재 클릭된 보드
@@ -70,6 +79,7 @@ class BoardInsideActivity : AppCompatActivity() {
         Log.d("비교",boardkey.toString())
         Log.d("비교",boardmarkIdList.toString())
         Log.d("보보드", boardmarkIdList.toString())
+
         UserApiClient.instance.me { user, error ->
             if (boardmarkIdList!!.contains(key)) {
                 binding.scrap.setImageResource(R.drawable.star)
@@ -96,11 +106,7 @@ class BoardInsideActivity : AppCompatActivity() {
                         .setValue(BoardmarkModel(true))
                 }
             }
-
-
         }
-
-
         binding.commentBtn.setOnClickListener {
             //댓글 입력
             InsertComment(key)

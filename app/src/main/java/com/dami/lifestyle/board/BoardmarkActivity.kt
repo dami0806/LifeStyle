@@ -26,18 +26,30 @@ class BoardmarkActivity : AppCompatActivity() {
     val keyList = ArrayList<String>()
     val boardmarkIdList = mutableListOf<String>()
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_boardmark)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_boardmark)
-
 
         boardmarkAdapter= BoardmarkAdapter(items)
         val rv = binding.boardmark
         rv.adapter =boardmarkAdapter
         getBoardkmarkData()
 
-    }
+
+        binding.boardmark.setOnItemClickListener { parent, view, position, id ->
+
+            val intent = Intent(this, BoardInsideActivity::class.java)
+
+            intent.putExtra("key",  keyList[position])
+            intent.putStringArrayListExtra("boardlistkey",  keyList)
+            Log.d("보드3",  keyList.toString())
+            startActivity(intent)
+        }
+
+
+        }
 
 
     private fun getCategoryData(){
