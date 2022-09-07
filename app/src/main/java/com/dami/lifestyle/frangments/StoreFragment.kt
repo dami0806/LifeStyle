@@ -31,6 +31,9 @@ class StoreFragment : Fragment() {
             val intent = Intent(context, BoardmarkActivity::class.java)
             startActivity(intent)
         }
+        binding.myBookmark.setOnClickListener {
+            it.findNavController().navigate(R.id.action_storeFragment_to_bookmarkFragment)
+        }
 
         //home
         binding.hometap.setOnClickListener{
