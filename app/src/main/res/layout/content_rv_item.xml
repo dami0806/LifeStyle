@@ -12,7 +12,8 @@
         android:id="@+id/imageArea"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:src="@drawable/main_icon_oneroom"/>
+        android:layout_margin="10dp"
+        android:src="@drawable/main_icon_market"/>
     <TextView
         android:id="@+id/textArea"
         android:layout_width="match_parent"
