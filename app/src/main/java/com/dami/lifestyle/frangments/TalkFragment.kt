@@ -19,6 +19,7 @@ import com.dami.lifestyle.contentsList.BookmarkRVAdapter
 import com.dami.lifestyle.contentsList.ContentModel
 import com.dami.lifestyle.databinding.FragmentTalkBinding
 import com.dami.lifestyle.databinding.FragmentTipBinding
+import com.dami.lifestyle.mypage.MyPageActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -65,6 +66,10 @@ class TalkFragment : Fragment() {
            /* boardmarkKeyList*/
             startActivity(intent)
 
+            val mystoryintent = Intent(context, MyPageActivity::class.java)
+            mystoryintent.putExtra("key",boardKeyList[position])
+            mystoryintent.putStringArrayListExtra("mystorylistkey",boardKeyList)
+            startActivity(mystoryintent)
         }
         //home
         binding.hometap.setOnClickListener{
