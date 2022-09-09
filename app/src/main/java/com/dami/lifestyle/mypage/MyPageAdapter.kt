@@ -25,7 +25,6 @@ class MyPageAdapter(val boardList:MutableList<BoardModel>): BaseAdapter(){
         var convertview = convertView
         convertview = LayoutInflater.from(parent?.context).inflate(R.layout.board_item,parent,false)
 
-        //}
         val title = convertview?.findViewById<TextView>(R.id.title)
         title!!.text = boardList[position].title
 
