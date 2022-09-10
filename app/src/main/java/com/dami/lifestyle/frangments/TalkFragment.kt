@@ -56,10 +56,7 @@ class TalkFragment : Fragment() {
         binding.boardLV.setOnItemClickListener{ parent, view, position, id->
 
             val intent = Intent(context,BoardInsideActivity::class.java)
-           /* intent.putExtra("title",boardDataList[position].title)
-            intent.putExtra("content",boardDataList[position].content)
-            intent.putExtra("time",boardDataList[position].time)
-*/          intent.putExtra("key",boardKeyList[position])
+            intent.putExtra("key",boardKeyList[position])
             intent.putStringArrayListExtra("boardlistkey",boardKeyList)
             Log.d("보드3",boardKeyList.toString())
            /* boardmarkKeyList*/
