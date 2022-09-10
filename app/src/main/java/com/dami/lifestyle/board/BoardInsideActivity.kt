@@ -68,13 +68,13 @@ class BoardInsideActivity : AppCompatActivity() {
 
         getboardmarkData()
 
-       val boardkey = intent.getStringExtra("key") //현재 클릭된 보드
-       // val boardIdListkey = intent.getStringArrayListExtra("boardlistkey") //전체 보드
+
+
 
         Log.d("비교",key)
-        Log.d("비교",boardkey.toString())
         Log.d("비교",boardmarkIdList.toString())
         Log.d("보보드", boardmarkIdList.toString())
+
 
         UserApiClient.instance.me { user, error ->
             if (boardmarkIdList!!.contains(key)) {

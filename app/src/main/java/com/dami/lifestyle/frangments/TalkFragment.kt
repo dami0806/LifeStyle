@@ -19,6 +19,7 @@ import com.dami.lifestyle.contentsList.BookmarkRVAdapter
 import com.dami.lifestyle.contentsList.ContentModel
 import com.dami.lifestyle.databinding.FragmentTalkBinding
 import com.dami.lifestyle.databinding.FragmentTipBinding
+import com.dami.lifestyle.mypage.MyPageActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -29,7 +30,6 @@ class TalkFragment : Fragment() {
     private val boardDataList= mutableListOf<BoardModel>()//데이터 담기
     private lateinit var boardRVAdapter: BoardListAdapter
     private var boardKeyList = ArrayList<String>()
-    private var bookmarkIdList = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,17 +51,20 @@ class TalkFragment : Fragment() {
 
 
 
-       boardRVAdapter = BoardListAdapter(boardDataList,bookmarkIdList)
+       boardRVAdapter = BoardListAdapter(boardDataList)
+
         binding.boardLV.adapter = boardRVAdapter
         binding.boardLV.setOnItemClickListener{ parent, view, position, id->
-
             val intent = Intent(context,BoardInsideActivity::class.java)
             intent.putExtra("key",boardKeyList[position])
             intent.putStringArrayListExtra("boardlistkey",boardKeyList)
             Log.d("보드3",boardKeyList.toString())
-           /* boardmarkKeyList*/
             startActivity(intent)
 
+            val mystoryintent = Intent(context, MyPageActivity::class.java)
+            mystoryintent.putExtra("key",boardKeyList[position])
+            mystoryintent.putStringArrayListExtra("mystorylistkey",boardKeyList)
+            startActivity(mystoryintent)
         }
         //home
         binding.hometap.setOnClickListener{

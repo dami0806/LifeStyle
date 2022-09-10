@@ -1,4 +1,4 @@
-package com.dami.lifestyle.board
+package com.dami.lifestyle.mypage
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,15 +6,17 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.dami.lifestyle.R
-import org.w3c.dom.Text
+import com.dami.lifestyle.board.BoardModel
 
-class BoardListAdapter(val boardList:MutableList<BoardModel>):BaseAdapter(){
+
+class MyPageAdapter (val boardList:MutableList<BoardModel>): BaseAdapter(){
+
     override fun getCount(): Int {
         return boardList.size
     }
 
     override fun getItem(position: Int): Any {
-    return boardList[position]
+        return boardList[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -23,10 +25,9 @@ class BoardListAdapter(val boardList:MutableList<BoardModel>):BaseAdapter(){
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var convertview = convertView
-    //if(convertview==null){ //중첩 버그로 지워놓기
         convertview = LayoutInflater.from(parent?.context).inflate(R.layout.board_item,parent,false)
 
-   //}
+
         val title = convertview?.findViewById<TextView>(R.id.title)
         title!!.text = boardList[position].title
 
@@ -40,6 +41,8 @@ class BoardListAdapter(val boardList:MutableList<BoardModel>):BaseAdapter(){
         user!!.text = boardList[position].user
         return convertview!!
 
-    }
 
-}
+
+    }}
+
+

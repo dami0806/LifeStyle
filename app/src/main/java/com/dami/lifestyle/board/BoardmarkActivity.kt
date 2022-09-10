@@ -19,8 +19,6 @@ import com.kakao.sdk.user.UserApiClient
 
 class BoardmarkActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardmarkBinding
-
-
     private lateinit var boardmarkAdapter: BoardmarkAdapter
     val items = ArrayList<BoardModel>()
     val keyList = ArrayList<String>()
@@ -36,6 +34,7 @@ class BoardmarkActivity : AppCompatActivity() {
         val rv = binding.boardmark
         rv.adapter =boardmarkAdapter
         getBoardkmarkData()
+
 
 
         binding.boardmark.setOnItemClickListener { parent, view, position, id ->
@@ -66,7 +65,7 @@ class BoardmarkActivity : AppCompatActivity() {
                     if (boardmarkIdList.contains(dataModel.key.toString())){
                         items.add(item!!)
                         keyList.add(dataModel.key.toString())
-                        Log.d("3번 1_1", item.toString())
+                        Log.d("4번 1_1", items.toString())
                     }
                 }
                 boardmarkAdapter.notifyDataSetChanged()
