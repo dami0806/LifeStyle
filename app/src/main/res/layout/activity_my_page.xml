@@ -6,10 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".mypage.MyPageActivity">
+
     <ListView
         android:id="@+id/mystory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="70dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

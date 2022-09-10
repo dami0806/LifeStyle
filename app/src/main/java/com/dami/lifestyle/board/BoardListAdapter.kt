@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.dami.lifestyle.R
 import org.w3c.dom.Text
 
-class BoardListAdapter(val boardList:MutableList<BoardModel>, val bookmarkIdList: MutableList<String>):BaseAdapter(){
+class BoardListAdapter(val boardList:MutableList<BoardModel>):BaseAdapter(){
     override fun getCount(): Int {
         return boardList.size
     }
