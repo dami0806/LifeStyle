@@ -25,7 +25,7 @@ class MyPageActivity : AppCompatActivity() {
     val keyList = ArrayList<String>()
     var currentUserEmail:String?=null
     var writer:String?=null
-
+    val boardmarkIdList = mutableListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_my_page)
@@ -34,7 +34,7 @@ class MyPageActivity : AppCompatActivity() {
         val rv = binding.mystory
         rv.adapter = myPageAdapter
         getboard()
-
+        //getBoardkmarkData()
 
         //게시판 이동
         binding.mystory.setOnItemClickListener { parent, view, position, id ->
@@ -60,17 +60,15 @@ class MyPageActivity : AppCompatActivity() {
                         currentUserEmail = user!!.kakaoAccount!!.email
                         writer = item!!.user
 
-                  /*  Log.d("찾기", currentUserEmail.toString())
-                    Log.d("찾기1",  writer.toString())*/
                         if(currentUserEmail.equals(writer)){
                             items.add(item!!)
                             keyList.add(dataModel.key.toString())
-                            Log.d("4번45",items.toString())
+                            myPageAdapter.notifyDataSetChanged()
                         }
                 }
                 }
 
-                myPageAdapter.notifyDataSetChanged()
+
 
             }
 
@@ -83,4 +81,7 @@ class MyPageActivity : AppCompatActivity() {
         FBRef.boardRef.addValueEventListener(postListener)
 
     }
+
+
+
 }
