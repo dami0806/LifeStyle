@@ -26,7 +26,7 @@ class MyPageActivity : AppCompatActivity() {
     val keyList = ArrayList<String>()
     var currentUserEmail:String?=null
     var writer:String?=null
-    val boardmarkIdList = mutableListOf<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_my_page)
@@ -36,6 +36,7 @@ class MyPageActivity : AppCompatActivity() {
         rv.adapter = myPageAdapter
         getboard()
         //getBoardkmarkData()
+
 
         //게시판 이동
         binding.mystory.setOnItemClickListener { parent, view, position, id ->
