@@ -69,9 +69,6 @@ class MyPageActivity : AppCompatActivity() {
                         }
                 }
                 }
-
-
-
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -83,8 +80,6 @@ class MyPageActivity : AppCompatActivity() {
         FBRef.boardRef.addValueEventListener(postListener)
 
     }
-
-
 
 }
 

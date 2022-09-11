@@ -17,6 +17,7 @@ import com.dami.lifestyle.board.BoardmarkActivity
 import com.dami.lifestyle.contentsList.ContentModel
 import com.dami.lifestyle.databinding.FragmentStoreBinding
 import com.dami.lifestyle.mypage.MyPageActivity
+import com.dami.lifestyle.mypage.MycommentActivity
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.android.synthetic.main.fragment_store.*
 
@@ -45,12 +46,8 @@ class StoreFragment : Fragment() {
                         "\n회원번호: ${user.id}" +
                         "\n이메일: ${user.kakaoAccount?.email}" +
                         "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
-                        "\n프로필사진: ${user.kakaoAccount?.profile?.profileImageUrl}"+
-                        "\n이름: ${user.kakaoAccount?.legalName}"+
-                        "\n생일: ${user.kakaoAccount?.birthday}"+
-                        "\n생년: ${user.kakaoAccount?.birthyear}"+
-                        "\n나이때: ${user.kakaoAccount?.ageRange}"+
-                        "\n폰번호: ${user.kakaoAccount?.phoneNumber}"
+                        "\n프로필사진: ${user.kakaoAccount?.profile?.profileImageUrl}"
+
 
                 )
                 var imgUrl= user.kakaoAccount?.profile?.profileImageUrl
@@ -69,7 +66,8 @@ class StoreFragment : Fragment() {
             startActivity(intent)
         }
         binding.myComment.setOnClickListener {
-
+            val intent = Intent(context,MycommentActivity::class.java)
+            startActivity(intent)
         }
         binding.myScrap.setOnClickListener {
             val intent = Intent(context, BoardmarkActivity::class.java)
