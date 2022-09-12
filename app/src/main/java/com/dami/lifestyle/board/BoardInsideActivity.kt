@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isInvisible
@@ -26,6 +27,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.android.synthetic.main.activity_board_inside.*
+import kotlinx.android.synthetic.main.boardcomment_item.view.*
 
 class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
@@ -113,8 +115,32 @@ class BoardInsideActivity : AppCompatActivity() {
         binding.commentLV.adapter = CommentLVAdapter
         getCommentData(key)
 
+        binding.commentLV.setOnItemClickListener { parent, view, position, id ->
 
+            var dlg = AlertDialog.Builder(this@BoardInsideActivity)
+            dlg.setTitle("Good Life")
+            dlg.setMessage("댓글을 수정 삭제하시겠습니까?")
+            dlg.setIcon(R.drawable.img_1)
+            dlg.setPositiveButton("수정") { dialog, which ->
+                Toast.makeText(this, "수정되었습니다.", Toast.LENGTH_SHORT).show()
 
+            }
+
+            dlg.setNegativeButton("삭제") { dialog, which ->
+
+                FBRef.commentRef
+                    .child(key)
+                    .child()
+                    .removeValue()
+
+                    Log.d("뭐가나올까",FBRef.commentRef.child(key).child(key).toString())
+                    Toast.makeText(this,"삭제되었습니다.",Toast.LENGTH_SHORT).show()
+
+                }
+                dlg.setNeutralButton("취소", null)
+                dlg.show()
+
+        }
     }
 
 
