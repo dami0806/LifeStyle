@@ -64,7 +64,7 @@ class TalkFragment : Fragment() {
             val mystoryintent = Intent(context, MyPageActivity::class.java)
             mystoryintent.putExtra("key",boardKeyList[position])
             mystoryintent.putStringArrayListExtra("mystorylistkey",boardKeyList)
-            startActivity(mystoryintent)
+            //startActivity(mystoryintent)
         }
         //home
         binding.hometap.setOnClickListener{

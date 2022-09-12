@@ -86,12 +86,12 @@ class MycommentActivity : AppCompatActivity() {
                             Log.d("댓글!!",item.toString())
                             Log.d("댓글1",i.toString()) //board key 아래 comment id 부터 모두 출력
                             Log.d("댓글작성자",writer.toString())
-                                if(currentUserEmail.equals(writer)) {
-                                    items.add(item!!)
-                                    keyList.add(dataModel.key.toString())
+                                if(currentUserEmail.equals(writer)&&!commentboardIdList.contains(dataModel.key)) {
                                     commentboardIdList.add(dataModel.key.toString())
+                                    Log.d("댓글작성자!!",commentboardIdList.toString()) //board key
+                                    Log.d("댓글작성자아이템!!!",items.toString())
                                 }}
-                    Log.d("댓글작성자!!",commentboardIdList.toString()) //board key
+
                 }   // 1. 전체 카테고리에 있는 컨텐츠 데이터들을 다 가져옴!
                     getCategoryData()
                 }

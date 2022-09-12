@@ -66,9 +66,10 @@ class BoardmarkActivity : AppCompatActivity() {
                         items.add(item!!)
                         keyList.add(dataModel.key.toString())
                         Log.d("4번 1_1", items.toString())
+                        boardmarkAdapter.notifyDataSetChanged()
                     }
                 }
-                boardmarkAdapter.notifyDataSetChanged()
+
 
             }
 
