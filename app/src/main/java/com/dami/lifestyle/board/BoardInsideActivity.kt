@@ -119,59 +119,60 @@ class BoardInsideActivity : AppCompatActivity() {
 
         binding.commentLV.setOnItemClickListener { parent, view, position, id ->
             UserApiClient.instance.me { user, error ->
-                user!!.kakaoAccount!!.email
-            }
-            val po=commentLV.adapter.getItem(position).toString()
+                val currentuser = user!!.kakaoAccount!!.email
 
-            var dlg = AlertDialog.Builder(this@BoardInsideActivity)
-            dlg.setTitle("Good Life")
-            dlg.setMessage("댓글을 수정 삭제하시겠습니까?")
-            dlg.setIcon(R.drawable.img_1)
-            dlg.setNegativeButton("삭제") { dialog, which ->
+                val po = commentLV.adapter.getItem(position).toString()
+if(po.contains(currentuser.toString())) {
+    var dlg = AlertDialog.Builder(this@BoardInsideActivity)
 
-
-                val postListener = object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-
-                        for (dataModel in dataSnapshot.children) {
+    dlg.setTitle("Good Life")
+    dlg.setMessage("댓글을 수정 삭제하시겠습니까?")
+    dlg.setIcon(R.drawable.img_1)
+    dlg.setNegativeButton("삭제") { dialog, which ->
 
 
-                            if(po.equals(dataModel.getValue(CommentModel::class.java).toString())) {
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (dataModel in dataSnapshot.children) {
+                    if (po.equals(
+                            dataModel.getValue(CommentModel::class.java).toString()
+                        )
+                    ) {
 
 
-                                Log.d("뭐가나올까요2",FBRef.commentRef.child(key).child(dataModel.key.toString()).toString())
-                                FBRef.commentRef
-                                    .child(key)
-                                    .child(dataModel.key.toString())
-                                    .removeValue()
+                        Log.d(
+                            "뭐가나올까요2",
+                            FBRef.commentRef.child(key).child(dataModel.key.toString())
+                                .toString()
+                        )
+                        FBRef.commentRef
+                            .child(key)
+                            .child(dataModel.key.toString())
+                            .removeValue()
 
-                            }
-
-
-                        }
-
-
-
-
-            }
-                    override fun onCancelled(databaseError: DatabaseError) {
-                        // Getting Post failed, log a message
-                        Log.w("ContentListActivity", "loadPost:onCancelled", databaseError.toException())
                     }
                 }
+            }
 
-                FBRef.commentRef.child(key).addValueEventListener(postListener)
-
-                    Toast.makeText(this,"삭제되었습니다.",Toast.LENGTH_SHORT).show()
-
-                }
-                dlg.setNeutralButton("취소", null)
-                dlg.show()
-
-
-
-
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(
+                    "ContentListActivity",
+                    "loadPost:onCancelled",
+                    databaseError.toException()
+                )
+            }
         }
+
+        FBRef.commentRef.child(key).addValueEventListener(postListener)
+        Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show()
+
+    }
+    dlg.setPositiveButton("취소", null)
+    dlg.show()
+}
+            }
+        }//binding
     }
 
     fun removeCommentData(key:String,position:Int){
