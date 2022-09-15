@@ -1,13 +1,17 @@
 package com.dami.lifestyle.board
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.get
 import androidx.core.view.isInvisible
@@ -33,7 +37,7 @@ import kotlinx.android.synthetic.main.boardcomment_item.view.*
 class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
     private lateinit var key: String
-    private lateinit var commentkey: String
+
     private var commentkeyList = mutableListOf<String>()
 
     private var  boardmarkIdList = mutableListOf<String>() //보드마트 키 값들
@@ -41,10 +45,12 @@ class BoardInsideActivity : AppCompatActivity() {
     //글쓴 사람과 현재 uid 비교
 
     var WriterUid: String? = null
-
+    var commentkey: String?=null
     private var commentDataList = mutableListOf<CommentModel>()
     private lateinit var CommentLVAdapter: CommentLVAdapter
 
+    // 1. 키보드 InputMethodManager 변수 선언
+    var imm : InputMethodManager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -69,12 +75,7 @@ class BoardInsideActivity : AppCompatActivity() {
         Log.d("택1", key) //택1: -NBXeT4PHW1skrn3r6eq 보드값
         getBoardData(key)
         getImgData(key)
-
         getboardmarkData()
-
-
-
-
         Log.d("비교",key)
         Log.d("비교",boardmarkIdList.toString())
         Log.d("보보드", boardmarkIdList.toString())
@@ -117,16 +118,19 @@ class BoardInsideActivity : AppCompatActivity() {
         binding.commentLV.adapter = CommentLVAdapter
         getCommentData(key)
 
+
+
+
         binding.commentLV.setOnItemClickListener { parent, view, position, id ->
             UserApiClient.instance.me { user, error ->
                 val currentuser = user!!.kakaoAccount!!.email
-
                 val po = commentLV.adapter.getItem(position).toString()
+
 if(po.contains(currentuser.toString())) {
     var dlg = AlertDialog.Builder(this@BoardInsideActivity)
 
     dlg.setTitle("Good Life")
-    dlg.setMessage("댓글을 수정 삭제하시겠습니까?")
+    dlg.setMessage("댓글을 삭제하시겠습니까?")
     dlg.setIcon(R.drawable.img_1)
     dlg.setNegativeButton("삭제") { dialog, which ->
 
@@ -134,6 +138,7 @@ if(po.contains(currentuser.toString())) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (dataModel in dataSnapshot.children) {
+
                     if (po.equals(
                             dataModel.getValue(CommentModel::class.java).toString()
                         )
@@ -170,41 +175,88 @@ if(po.contains(currentuser.toString())) {
     }
     dlg.setPositiveButton("취소", null)
     dlg.show()
-}
-            }
-        }//binding
-    }
+}//사용자 식별
+else{
+    val postListener = object : ValueEventListener {
+        @RequiresApi(Build.VERSION_CODES.N)
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            for (dataModel in dataSnapshot.children) {
+                commentkey = dataModel.key.toString()
+                var dlg = AlertDialog.Builder(this@BoardInsideActivity)
+                dlg.setTitle("Good Life")
+                dlg.setMessage("대댓글을 작성하겠습니까?")
+                dlg.setIcon(R.drawable.img_1)
+                dlg.setPositiveButton("취소", null)
+                dlg.setNegativeButton("확인"){  dialog, which ->
 
-    fun removeCommentData(key:String,position:Int){
-        //comment key
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                UserApiClient.instance.me { user, error ->
-                    for (dataModel in dataSnapshot.children) {
-                        var num= 0
-                        for( i in dataModel.children){
-                            if(position.toString().equals(num.toString()))
-                                FBRef.commentRef
-                                    .child(key)
-                                    .child(commentkey)
-                                    .removeValue()
-                            commentkey = i.key.toString()
-                            Log.d("과연",commentkey) //모든 댓글 나온다.
-                            commentkeyList.add(commentkey)
-                            Log.d("과연?",commentkeyList.toString())
-                            Log.d("과연??",commentLV.getChildAt(position).toString())
-                            num++
+// 2. 키보드 InputMethodManager 세팅
+                    imm = getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as InputMethodManager?
+                            //댓글 입력
+                            binding.commentArea.setHint("대댓글을 작성하세요")
+
+                    // 3. 이벤트 메서드 생성
+                    // Activity 최상위 Layout의 onClick setting -> 해당 레이아웃 내 view 클릭 시 hideKeyboard 실행!
+                   
+
+
+                            binding.commentBtn.setOnClickListener {
+                                InsertReply(key,commentkey.toString())
+
                         }
-                    }
+
+
 
                 }
-            }
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                Log.w("ContentListActivity", "loadPost:onCancelled", databaseError.toException())
+                dlg.show()
             }
         }
-          FBRef.commentRef.addValueEventListener(postListener)
+
+        override fun onCancelled(databaseError: DatabaseError) {
+            // Getting Post failed, log a message
+            Log.w(
+                "ContentListActivity",
+                "loadPost:onCancelled",
+                databaseError.toException()
+            )
+        }
+    }
+
+    FBRef.commentRef.child(key).addValueEventListener(postListener)
+
+
+            }
+            }
+
+        }//binding
+    }
+    fun showKeyboard(v: View){
+        if(v != null){
+            imm?.showSoftInput(v, 0)
+        }
+    }
+    fun InsertReply(key: String,commentkey:String) {
+        //comment
+        // - boardKey 아이디
+        // - CommentKey
+        // - CommentData
+        // - CommentData
+        UserApiClient.instance.me { user, error ->
+            FBRef.commentRef
+                .child(key)
+                .child(commentkey)
+                .push()
+                .setValue(
+                    CommentModel(
+                        user!!.kakaoAccount?.email,
+                        binding.commentArea.text.toString(),
+                        KakaoAuth.getTime()
+                    )
+                )
+            Toast.makeText(this, "대댓글이 작성되었습니다.", Toast.LENGTH_SHORT).show()
+            binding.commentArea.setText("")
+
+
+        }
     }
 
     fun getCommentData(key: String) {
@@ -244,7 +296,9 @@ if(po.contains(currentuser.toString())) {
             Toast.makeText(this, "댓글이 작성되었습니다.", Toast.LENGTH_SHORT).show()
             binding.commentArea.setText("")
 
+
         }
+
     }
 
 
@@ -289,7 +343,6 @@ if(po.contains(currentuser.toString())) {
         }
         FBRef.boardRef.child(key).addValueEventListener(postListener)
 
-        Log.d("보드2",FBRef.boardRef.child(key).toString())
 
 
 
