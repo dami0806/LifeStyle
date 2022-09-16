@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.kakao.sdk.user.UserApiClient
@@ -169,20 +170,30 @@ if(po.contains(currentuser.toString())) {
     dlg.setIcon(R.drawable.img_1)
     dlg.setNegativeButton("확인") { dialog, which ->
 
+
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (dataModel in dataSnapshot.children) {
                     if (po.equals(dataModel.getValue(CommentModel::class.java).toString())){
                         commentkey = dataModel.key.toString()
                         binding.commentArea.setHint("대댓글을 작성하세요")
+
                         binding.commentBtn.setOnClickListener {
                             //댓글 입력
                             InsertReply(key, commentkey.toString())
-                        }
+                            getReCommentData(key,commentkey.toString())
+                        }  //댓글 출력
 
 
-                }}
-                
+                        CommentLVAdapter = CommentLVAdapter(commentDataList)
+                        binding.commentLV.adapter = CommentLVAdapter
+
+
+
+
+                    }
+                }
+
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
@@ -202,42 +213,6 @@ if(po.contains(currentuser.toString())) {
     dlg.show()
 }
 
-/*else{
-    val postListener = object : ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot) {
-            for (dataModel in dataSnapshot.children) {
-                commentkey = dataModel.key.toString()
-                var dlg = AlertDialog.Builder(this@BoardInsideActivity)
-                dlg.setTitle("Good Life")
-                dlg.setMessage("대댓글을 작성하겠습니까?")
-                dlg.setIcon(R.drawable.img_1)
-                dlg.setPositiveButton("취소", null)
-                dlg.setNegativeButton("확인"){  dialog, which ->
-                 binding.commentArea.setHint("대댓글을 작성하세요")
-                    binding.commentBtn.setOnClickListener {
-                        //댓글 입력
-                        InsertReply(key,commentkey.toString())
-                    }
-
-                }
-                dlg.show()
-            }
-        }
-
-        override fun onCancelled(databaseError: DatabaseError) {
-            // Getting Post failed, log a message
-            Log.w(
-                "ContentListActivity",
-                "loadPost:onCancelled",
-                databaseError.toException()
-            )
-        }
-    }
-
-    FBRef.commentRef.child(key).addValueEventListener(postListener)
-
-
-            }*/
             }
 
         }//binding
@@ -279,6 +254,35 @@ if(po.contains(currentuser.toString())) {
                 }
                 CommentLVAdapter.notifyDataSetChanged()//어댑터 동기화
             }
+            override fun onCancelled(databaseError: DatabaseError) {
+            }
+        }
+        FBRef.commentRef.child(key).addValueEventListener(postListener)
+    }
+
+    fun getReCommentData(key: String,commentkey: String) {
+//comment 아래 board아래 commentkey 아래 comment 데이터들
+
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                commentDataList.clear()
+
+                for (dataModel in dataSnapshot.children) {
+                    val item = dataModel.getValue(CommentModel::class.java)
+                    commentDataList.add(item!!)
+                    if(dataModel.key.toString() == commentkey){
+                    for(j in dataModel.children){
+                        if(j.value.toString().contains(User.toString())){
+                            val item2 = j.getValue(CommentModel::class.java)
+                            commentDataList.add(item2!!)
+                 }
+
+                    }
+                    }
+            }
+            CommentLVAdapter.notifyDataSetChanged()//어댑터 동기화
+        }
             override fun onCancelled(databaseError: DatabaseError) {
             }
         }
