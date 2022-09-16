@@ -74,6 +74,54 @@ class MycommentActivity : AppCompatActivity() {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 UserApiClient.instance.me { user, error ->
+                    for (dataModel in dataSnapshot.children) {
+                        for (i in dataModel.children) {
+
+                            val item_ = i.getValue(CommentModel::class.java) //commentModel안에있는 사용자
+
+
+                                currentUserEmail = user!!.kakaoAccount!!.email
+                                writer = item_!!.commentUser
+
+                            if (currentUserEmail.equals(writer) && !commentboardIdList.contains(dataModel.key)) {
+                                    commentboardIdList.add(dataModel.key.toString())
+
+                                }
+
+                            for (j in i.children) {
+                                if (j.value.toString().contains("commentTitle=")) {
+                                    val item = j.getValue(CommentModel::class.java) //commentModel안에있는 사용자
+
+
+                                    currentUserEmail = user!!.kakaoAccount!!.email
+                                    writer = item!!.commentUser
+
+                                    if (currentUserEmail.equals(writer) && !commentboardIdList.contains(i.key)) {
+                                        commentboardIdList.add(i.key.toString())
+                                        Log.d("댓글작성자!!", commentboardIdList.toString()) //board key
+                                        Log.d("댓글작성자아이템!!!", items.toString())
+                                    }
+                                }
+                            }
+                        }   // 1. 전체 카테고리에 있는 컨텐츠 데이터들을 다 가져옴!
+                        getCategoryData() }
+
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w("ContentListActivity", "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        UserApiClient.instance.me { user, error ->
+            FBRef.commentRef.addValueEventListener(postListener)
+        }
+
+    }
+/*    private fun getBoardkmarkData(){
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                UserApiClient.instance.me { user, error ->
                 for (dataModel in dataSnapshot.children) {
                         for( i in dataModel.children){
 
@@ -105,6 +153,6 @@ class MycommentActivity : AppCompatActivity() {
             FBRef.commentRef.addValueEventListener(postListener)
         }
 
-    }
+    }*/
 
 }
