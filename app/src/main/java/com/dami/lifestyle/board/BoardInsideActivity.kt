@@ -172,15 +172,17 @@ if(po.contains(currentuser.toString())) {
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (dataModel in dataSnapshot.children) {
-                    commentkey = dataSnapshot.getValue().toString()
-                    binding.commentArea.setHint("대댓글을 작성하세요")
+                    if (po.equals(dataModel.getValue(CommentModel::class.java).toString())){
+                        commentkey = dataModel.key.toString()
+                        binding.commentArea.setHint("대댓글을 작성하세요")
                         binding.commentBtn.setOnClickListener {
                             //댓글 입력
                             InsertReply(key, commentkey.toString())
                         }
 
 
-                }
+                }}
+                
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
