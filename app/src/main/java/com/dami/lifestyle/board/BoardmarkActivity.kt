@@ -65,12 +65,9 @@ class BoardmarkActivity : AppCompatActivity() {
                     if (boardmarkIdList.contains(dataModel.key.toString())){
                         items.add(item!!)
                         keyList.add(dataModel.key.toString())
-                        Log.d("4번 1_1", items.toString())
                         boardmarkAdapter.notifyDataSetChanged()
                     }
                 }
-
-
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

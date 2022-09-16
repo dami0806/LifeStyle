@@ -117,8 +117,8 @@ class BoardInsideActivity : AppCompatActivity() {
         }
         CommentLVAdapter = CommentLVAdapter(commentDataList)
         binding.commentLV.adapter = CommentLVAdapter
-        getCommentData(key)
-
+        //getCommentData(key)
+        getReCommentData(key)
 
 
 
@@ -181,7 +181,7 @@ if(po.contains(currentuser.toString())) {
                         binding.commentBtn.setOnClickListener {
                             //댓글 입력
                             InsertReply(key, commentkey.toString())
-                            getReCommentData(key,commentkey.toString())
+                            getReCommentData(key)
                         }  //댓글 출력
 
 
@@ -239,11 +239,10 @@ if(po.contains(currentuser.toString())) {
             Toast.makeText(this, "대댓글이 작성되었습니다.", Toast.LENGTH_SHORT).show()
             binding.commentArea.setText("")
 
-
         }
     }
 
-    fun getCommentData(key: String) {
+/*    fun getCommentData(key: String) {
 //comment 아래 board아래 commentkey 아래 comment 데이터들
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -258,9 +257,10 @@ if(po.contains(currentuser.toString())) {
             }
         }
         FBRef.commentRef.child(key).addValueEventListener(postListener)
-    }
+    }*/
 
-    fun getReCommentData(key: String,commentkey: String) {
+    //대댓글
+    fun getReCommentData(key: String) {
 //comment 아래 board아래 commentkey 아래 comment 데이터들
 
 
@@ -270,16 +270,18 @@ if(po.contains(currentuser.toString())) {
 
                 for (dataModel in dataSnapshot.children) {
                     val item = dataModel.getValue(CommentModel::class.java)
+
                     commentDataList.add(item!!)
-                    if(dataModel.key.toString() == commentkey){
+
                     for(j in dataModel.children){
-                        if(j.value.toString().contains(User.toString())){
+
+                        if(j.value.toString().contains("commentTitle=")){
                             val item2 = j.getValue(CommentModel::class.java)
                             commentDataList.add(item2!!)
-                 }
 
+                        }
                     }
-                    }
+
             }
             CommentLVAdapter.notifyDataSetChanged()//어댑터 동기화
         }
