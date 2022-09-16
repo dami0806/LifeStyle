@@ -128,33 +128,19 @@ class BoardInsideActivity : AppCompatActivity() {
 
 if(po.contains(currentuser.toString())) {
     var dlg = AlertDialog.Builder(this@BoardInsideActivity)
-
     dlg.setTitle("Good Life")
     dlg.setMessage("댓글을 삭제하시겠습니까?")
     dlg.setIcon(R.drawable.img_1)
     dlg.setNegativeButton("삭제") { dialog, which ->
 
-
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (dataModel in dataSnapshot.children) {
-
-                    if (po.equals(
-                            dataModel.getValue(CommentModel::class.java).toString()
-                        )
-                    ) {
-
-
-                        Log.d(
-                            "뭐가나올까요2",
-                            FBRef.commentRef.child(key).child(dataModel.key.toString())
-                                .toString()
-                        )
-                        FBRef.commentRef
+                    if (po.equals(dataModel.getValue(CommentModel::class.java).toString()))
+                    {FBRef.commentRef
                             .child(key)
                             .child(dataModel.key.toString())
                             .removeValue()
-
                     }
                 }
             }
@@ -176,9 +162,46 @@ if(po.contains(currentuser.toString())) {
     dlg.setPositiveButton("취소", null)
     dlg.show()
 }//사용자 식별
-else{
+                else{
+    var dlg = AlertDialog.Builder(this@BoardInsideActivity)
+    dlg.setTitle("Good Life")
+    dlg.setMessage("대댓글을 작성하겠습니까?")
+    dlg.setIcon(R.drawable.img_1)
+    dlg.setNegativeButton("확인") { dialog, which ->
+
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (dataModel in dataSnapshot.children) {
+                    commentkey = dataSnapshot.getValue().toString()
+                    binding.commentArea.setHint("대댓글을 작성하세요")
+                        binding.commentBtn.setOnClickListener {
+                            //댓글 입력
+                            InsertReply(key, commentkey.toString())
+                        }
+
+
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(
+                    "ContentListActivity",
+                    "loadPost:onCancelled",
+                    databaseError.toException()
+                )
+            }
+        }
+
+        FBRef.commentRef.child(key).addValueEventListener(postListener)
+
+    }
+    dlg.setPositiveButton("취소", null)
+    dlg.show()
+}
+
+/*else{
     val postListener = object : ValueEventListener {
-        @RequiresApi(Build.VERSION_CODES.N)
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             for (dataModel in dataSnapshot.children) {
                 commentkey = dataModel.key.toString()
@@ -188,23 +211,11 @@ else{
                 dlg.setIcon(R.drawable.img_1)
                 dlg.setPositiveButton("취소", null)
                 dlg.setNegativeButton("확인"){  dialog, which ->
-
-// 2. 키보드 InputMethodManager 세팅
-                    imm = getSystemService(android.content.Context.INPUT_METHOD_SERVICE) as InputMethodManager?
-                            //댓글 입력
-                            binding.commentArea.setHint("대댓글을 작성하세요")
-
-                    // 3. 이벤트 메서드 생성
-                    // Activity 최상위 Layout의 onClick setting -> 해당 레이아웃 내 view 클릭 시 hideKeyboard 실행!
-                   
-
-
-                            binding.commentBtn.setOnClickListener {
-                                InsertReply(key,commentkey.toString())
-
-                        }
-
-
+                 binding.commentArea.setHint("대댓글을 작성하세요")
+                    binding.commentBtn.setOnClickListener {
+                        //댓글 입력
+                        InsertReply(key,commentkey.toString())
+                    }
 
                 }
                 dlg.show()
@@ -224,16 +235,12 @@ else{
     FBRef.commentRef.child(key).addValueEventListener(postListener)
 
 
-            }
+            }*/
             }
 
         }//binding
     }
-    fun showKeyboard(v: View){
-        if(v != null){
-            imm?.showSoftInput(v, 0)
-        }
-    }
+
     fun InsertReply(key: String,commentkey:String) {
         //comment
         // - boardKey 아이디
