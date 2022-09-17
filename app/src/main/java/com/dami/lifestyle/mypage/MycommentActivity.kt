@@ -17,12 +17,13 @@ import com.google.firebase.database.ValueEventListener
 import com.kakao.sdk.user.UserApiClient
 
 class MycommentActivity : AppCompatActivity() {
-    private lateinit var binding:ActivityMycommentBinding
+    private lateinit var binding: ActivityMycommentBinding
     private lateinit var myCommentAdapter: MycommentAdapter
     val items = mutableListOf<BoardModel>()
     val keyList = ArrayList<String>()
-    var currentUserEmail:String?=null
-    var writer:String?=null
+    var currentUserEmail: String? = null
+    var writer: String? = null
+    var writer2: String? = null
     val commentboardIdList = mutableListOf<String>()
 
 
@@ -32,7 +33,7 @@ class MycommentActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_mycomment)
         myCommentAdapter = MycommentAdapter(items)
-        val lv =binding.mycomment
+        val lv = binding.mycomment
         lv.adapter = myCommentAdapter
         getBoardkmarkData()
 
@@ -43,8 +44,9 @@ class MycommentActivity : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
     //user.email과 board의 user.email이 같은것 선별
-    private fun getCategoryData(){
+    private fun getCategoryData() {
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -52,16 +54,17 @@ class MycommentActivity : AppCompatActivity() {
                 for (dataModel in dataSnapshot.children) {
                     val item = dataModel.getValue(BoardModel::class.java)
                     // 3. 전체 컨텐츠 중에서, 사용자가 북마크한 정보만 보여줌!
-                    if (commentboardIdList.contains(dataModel.key.toString())){
+                    if (commentboardIdList.contains(dataModel.key.toString())) {
                         items.add(item!!)
                         keyList.add(dataModel.key.toString())
-                        Log.d("댓글~!!",item.toString())
-                        Log.d("댓글1~!!",commentboardIdList.toString())
+                        Log.d("댓글~!!", item.toString())
+                        Log.d("댓글1~!!", commentboardIdList.toString())
                         myCommentAdapter.notifyDataSetChanged()
                     }
 
                 }
             }
+
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
                 Log.w("ContentListActivity", "loadPost:onCancelled", databaseError.toException())
@@ -69,45 +72,53 @@ class MycommentActivity : AppCompatActivity() {
         }
         FBRef.boardRef.addValueEventListener(postListener)
     }
-    //북마크된것
     private fun getBoardkmarkData(){
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                commentboardIdList.clear()
                 UserApiClient.instance.me { user, error ->
                     for (dataModel in dataSnapshot.children) {
                         for (i in dataModel.children) {
 
                             val item_ = i.getValue(CommentModel::class.java) //commentModel안에있는 사용자
-
-
-                                currentUserEmail = user!!.kakaoAccount!!.email
-                                writer = item_!!.commentUser
+                            currentUserEmail = user!!.kakaoAccount!!.email
+                            writer = item_!!.commentUser
+                            Log.d("라이터1",item_.toString())
 
                             if (currentUserEmail.equals(writer) && !commentboardIdList.contains(dataModel.key)) {
-                                    commentboardIdList.add(dataModel.key.toString())
-
-                                }
-
+                                commentboardIdList.add(dataModel.key.toString())
+                                Log.d("댓글작성자!!1", dataModel.key.toString()) //board key
+                                Log.d("댓글작성자작성자!!1", commentboardIdList.toString())
+                            }
                             for (j in i.children) {
-                                if (j.value.toString().contains("commentTitle=")) {
+                                if (j.value.toString().contains("commentTitle=")) { //대댓글이 있는 댓글
                                     val item = j.getValue(CommentModel::class.java) //commentModel안에있는 사용자
-
-
                                     currentUserEmail = user!!.kakaoAccount!!.email
-                                    writer = item!!.commentUser
+                                    writer2 = item!!.commentUser
 
-                                    if (currentUserEmail.equals(writer) && !commentboardIdList.contains(i.key)) {
-                                        commentboardIdList.add(i.key.toString())
-                                        Log.d("댓글작성자!!", commentboardIdList.toString()) //board key
-                                        Log.d("댓글작성자아이템!!!", items.toString())
+
+
+                                    if (currentUserEmail.equals(writer2) && !commentboardIdList.contains(dataModel.key)) { //중복제거
+                                        commentboardIdList.add(dataModel.key.toString())
+                                        Log.d("댓글작성자!!2", dataModel.key.toString()) //board key
+                                        Log.d("댓글작성자작성자!!2", commentboardIdList.toString())
+
                                     }
+
                                 }
                             }
-                        }   // 1. 전체 카테고리에 있는 컨텐츠 데이터들을 다 가져옴!
-                        getCategoryData() }
+                           // getCategoryData()
+                        }
 
+                    }
+                    getCategoryData()
+                    myCommentAdapter.notifyDataSetChanged()//어댑터 동기화
+                    // 1. 전체 카테고리에 있는 컨텐츠 데이터들을 다 가져옴!
+                    //getCategoryData()
                 }
             }
+
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
                 Log.w("ContentListActivity", "loadPost:onCancelled", databaseError.toException())
@@ -118,29 +129,37 @@ class MycommentActivity : AppCompatActivity() {
         }
 
     }
+    //북마크된것
 /*    private fun getBoardkmarkData(){
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 UserApiClient.instance.me { user, error ->
-                for (dataModel in dataSnapshot.children) {
-                        for( i in dataModel.children){
+                    for (dataModel in dataSnapshot.children) {
+                        for (i in dataModel.children) {
 
-                                val item_ = i.getValue(CommentModel::class.java) //commentModel안에있는 사용자
-                                val item = i.getValue(BoardModel::class.java)
-
+                            val item_ = i.getValue(CommentModel::class.java) //commentModel안에있는 사용자
                                 currentUserEmail = user!!.kakaoAccount!!.email
                                 writer = item_!!.commentUser
-                            Log.d("댓글!!",item_.toString())
-                            Log.d("댓글!!",item.toString())
-                            Log.d("댓글1",i.toString()) //board key 아래 comment id 부터 모두 출력
-                            Log.d("댓글작성자",writer.toString())
-                                if(currentUserEmail.equals(writer)&&!commentboardIdList.contains(dataModel.key)) {
-                                    commentboardIdList.add(dataModel.key.toString())
-                                    Log.d("댓글작성자!!",commentboardIdList.toString()) //board key
-                                    Log.d("댓글작성자아이템!!!",items.toString())
-                                }}
 
-                }   // 1. 전체 카테고리에 있는 컨텐츠 데이터들을 다 가져옴!
+                            if (currentUserEmail.equals(writer) && !commentboardIdList.contains(dataModel.key)) {
+                                    commentboardIdList.add(dataModel.key.toString())
+                                }
+                            for (j in i.children) {
+                                if (j.value.toString().contains("commentTitle=")) {
+                                    val item = j.getValue(CommentModel::class.java) //commentModel안에있는 사용자
+                                    currentUserEmail = user!!.kakaoAccount!!.email
+                                    writer = item!!.commentUser
+
+                                    if (currentUserEmail.equals(writer) && !commentboardIdList.contains(i.key)) { //중복제거
+                                        commentboardIdList.add(i.key.toString())
+                                        Log.d("댓글작성자!!", commentboardIdList.toString()) //board key
+                                        Log.d("댓글작성자아이템!!!", items.toString())
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // 1. 전체 카테고리에 있는 컨텐츠 데이터들을 다 가져옴!
                     getCategoryData()
                 }
             }
