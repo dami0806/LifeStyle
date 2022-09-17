@@ -21,6 +21,9 @@
         tools:ignore="Instantiatable"
         tools:targetApi="31">
         <activity
+            android:name=".alarm.AlarmActivity"
+            android:exported="false" />
+        <activity
             android:name=".mypage.MycommentActivity"
             android:exported="false" />
         <activity
@@ -34,8 +37,8 @@
             android:exported="false" />
         <activity
             android:name=".board.BoardInsideActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".contentsList.ContentListActivity"
             android:exported="false" />
@@ -60,7 +63,6 @@
         </activity>
         <activity
             android:name=".MainActivity"
-
             android:exported="true" />
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"

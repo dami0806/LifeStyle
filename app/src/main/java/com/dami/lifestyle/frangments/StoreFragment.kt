@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.dami.lifestyle.R
+import com.dami.lifestyle.alarm.AlarmActivity
 import com.dami.lifestyle.board.BoardWrtieActivity
 import com.dami.lifestyle.board.BoardmarkActivity
 import com.dami.lifestyle.contentsList.ContentModel
@@ -73,6 +74,12 @@ class StoreFragment : Fragment() {
             val intent = Intent(context, BoardmarkActivity::class.java)
             startActivity(intent)
         }
+        binding.myboardAlarm.setOnClickListener {
+            val intent = Intent(context, AlarmActivity::class.java)
+            startActivity(intent)
+        }
+
+
         binding.myBookmark.setOnClickListener {
             it.findNavController().navigate(R.id.action_storeFragment_to_bookmarkFragment)
         }

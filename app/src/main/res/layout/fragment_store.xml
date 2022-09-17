@@ -137,7 +137,7 @@
                     android:padding="10dp"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/mystoryimg"
+                    android:src="@drawable/star"
                     />
                 <TextView
                     android:id="@+id/myScrap"
@@ -149,7 +149,7 @@
 
             </LinearLayout>
 
-            //내가 쓴 글
+            //북마크 글
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -159,7 +159,7 @@
                     android:padding="10dp"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@drawable/mystoryimg"
+                    android:src="@drawable/bookmark_color"
                     />
                 <TextView
                     android:id="@+id/myBookmark"
@@ -170,6 +170,28 @@
 
 
             </LinearLayout>
+
+                ////북마크 글
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:padding="10dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/bell"
+                        />
+                    <TextView
+                        android:id="@+id/myboardAlarm"
+                        android:text="댓글 알림"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10dp"/>
+
+
+                </LinearLayout>
 
 
 
