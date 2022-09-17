@@ -134,16 +134,35 @@ if(po.contains(currentuser.toString())) {
     dlg.setIcon(R.drawable.img_1)
     dlg.setNegativeButton("삭제") { dialog, which ->
 
+        Log.d("po",po.toString())
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (dataModel in dataSnapshot.children) {
-                    if (po.equals(dataModel.getValue(CommentModel::class.java).toString()))
-                    {FBRef.commentRef
+                    Log.d("po1",po.toString())
+                    Log.d("po11",dataModel.getValue(CommentModel::class.java).toString())
+                    if (po.equals(dataModel.getValue(CommentModel::class.java).toString())){
+                        FBRef.commentRef
                             .child(key)
                             .child(dataModel.key.toString())
                             .removeValue()
                     }
+
+                    //대댓글 삭제하기
+                    for (i in dataModel.children) {
+                        /*  Log.d("po12",po.toString())
+                        Log.d("po1122",i.getValue(CommentModel::class.java).toString())*/
+                        if (i.value.toString().contains("commentTitle=")) {
+                            if (po.equals(i.getValue(CommentModel::class.java).toString())) {
+                                FBRef.commentRef
+                                    .child(key)
+                                    .child(dataModel.key.toString())
+                                    .child(i.key.toString())
+                                    .removeValue()
+                            }
+                        }
+                    }
                 }
+
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
