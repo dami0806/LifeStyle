@@ -1,16 +1,17 @@
 package com.dami.lifestyle.alarm
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.dami.lifestyle.FBRef
 import com.dami.lifestyle.R
+import com.dami.lifestyle.board.BoardInsideActivity
 import com.dami.lifestyle.board.BoardModel
 import com.dami.lifestyle.comment.CommentLVAdapter
 import com.dami.lifestyle.comment.CommentModel
 import com.dami.lifestyle.databinding.ActivityAlarmBinding
-import com.dami.lifestyle.databinding.FragmentStoreBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -31,6 +32,15 @@ class AlarmActivity : AppCompatActivity() {
         binding.alarmLV.adapter = AlarmListAdapter
 
         getFBAlarmData()
+
+        //게시판 이동
+        binding.alarmLV.setOnItemClickListener { parent, view, position, id ->
+            val intent = Intent(this, BoardInsideActivity::class.java)
+          /*  intent.putExtra("key", keyList[position])
+            intent.putStringArrayListExtra("boardlistkey", keyList)
+            Log.d("보드3", keyList.toString())*/
+            startActivity(intent)
+        }
 
     }
     private fun getFBAlarmData(){

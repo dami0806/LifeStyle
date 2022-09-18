@@ -116,55 +116,64 @@ class BoardInsideActivity : AppCompatActivity() {
                 val currentuser = user!!.kakaoAccount!!.email
                 val po = commentLV.adapter.getItem(position).toString()
 
-if(po.contains(currentuser.toString())) {
-    var dlg = AlertDialog.Builder(this@BoardInsideActivity)
-    dlg.setTitle("Good Life")
-    dlg.setMessage("댓글을 삭제하시겠습니까?")
-    dlg.setIcon(R.drawable.img_1)
-    dlg.setNegativeButton("삭제") { dialog, which ->
+                if (po.contains(currentuser.toString())) {
+                    var dlg = AlertDialog.Builder(this@BoardInsideActivity)
+                    dlg.setTitle("Good Life")
+                    dlg.setMessage("댓글을 삭제하시겠습니까?")
+                    dlg.setIcon(R.drawable.img_1)
+                    dlg.setNegativeButton("삭제") { dialog, which ->
 
-        Log.d("po",po.toString())
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                for (dataModel in dataSnapshot.children) {
-                    Log.d("po1",po.toString())
-                    Log.d("po11",dataModel.getValue(CommentModel::class.java).toString())
-                    if (po.equals(dataModel.getValue(CommentModel::class.java).toString())){
-                        FBRef.commentRef
-                            .child(key)
-                            .child(dataModel.key.toString())
-                            .removeValue()
-                    }
+                        Log.d("po", po.toString())
+                        val postListener = object : ValueEventListener {
+                            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                for (dataModel in dataSnapshot.children) {
+                                    Log.d("po1", po.toString())
+                                    Log.d(
+                                        "po11",
+                                        dataModel.getValue(CommentModel::class.java).toString()
+                                    )
+                                    if (po.equals(
+                                            dataModel.getValue(CommentModel::class.java).toString()
+                                        )
+                                    ) {
+                                        FBRef.commentRef
+                                            .child(key)
+                                            .child(dataModel.key.toString())
+                                            .removeValue()
+                                    }
 
-                    //대댓글 삭제하기
-                    for (i in dataModel.children) {
-                        /*  Log.d("po12",po.toString())
-                        Log.d("po1122",i.getValue(CommentModel::class.java).toString())*/
-                        if (i.value.toString().contains("commentTitle=")) {
-                            if (po.equals(i.getValue(CommentModel::class.java).toString())) {
-                                FBRef.commentRef
-                                    .child(key)
-                                    .child(dataModel.key.toString())
-                                    .child(i.key.toString())
-                                    .removeValue()
+                                    //대댓글 삭제하기
+                                    for (i in dataModel.children) {
+                                        /*  Log.d("po12",po.toString())
+                                        Log.d("po1122",i.getValue(CommentModel::class.java).toString())*/
+                                        if (i.value.toString().contains("commentTitle=")) {
+                                            if (po.equals(
+                                                    i.getValue(CommentModel::class.java).toString()
+                                                )
+                                            ) {
+                                                FBRef.commentRef
+                                                    .child(key)
+                                                    .child(dataModel.key.toString())
+                                                    .child(i.key.toString())
+                                                    .removeValue()
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }
+
+                            override fun onCancelled(databaseError: DatabaseError) {
+                                // Getting Post failed, log a message
+                                Log.w(
+                                    "ContentListActivity",
+                                    "loadPost:onCancelled",
+                                    databaseError.toException()
+                                )
                             }
                         }
-                    }
-                }
 
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
-                Log.w(
-                    "ContentListActivity",
-                    "loadPost:onCancelled",
-                    databaseError.toException()
-                )
-            }
-        }
-
-        FBRef.commentRef.child(key).addValueEventListener(postListener)
+                        FBRef.commentRef.child(key).addValueEventListener(postListener)
         Toast.makeText(this, "삭제되었습니다.", Toast.LENGTH_SHORT).show()
 
     }
@@ -185,7 +194,6 @@ if(po.contains(currentuser.toString())) {
                     if (po.equals(dataModel.getValue(CommentModel::class.java).toString())){
                         commentkey = dataModel.key.toString()
                         binding.commentArea.setHint("대댓글을 작성하세요")
-
                         binding.commentBtn.setOnClickListener {
                             //댓글 입력
                             InsertReply(key, commentkey.toString())
@@ -328,7 +336,8 @@ if(po.contains(currentuser.toString())) {
                                     AlarmModel(
                                         KakaoAuth.getTime(),
                                         sender,//보내는 사람
-                                        receiver.toString()
+                                        receiver.toString(),
+                                        dataModel.key.toString()
                                     )
                                 )
                         }

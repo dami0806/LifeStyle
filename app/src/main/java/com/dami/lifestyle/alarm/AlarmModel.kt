@@ -4,4 +4,5 @@ data class AlarmModel(
     val time:String="",
     val sender:String="",
     val receiver:String =" ",
+    val board:String =" ",
 )
