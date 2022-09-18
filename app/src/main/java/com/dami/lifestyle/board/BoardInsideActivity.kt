@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide
 import com.dami.lifestyle.FBRef
 import com.dami.lifestyle.KakaoAuth
 import com.dami.lifestyle.R
+import com.dami.lifestyle.alarm.AlarmModel
 import com.dami.lifestyle.comment.CommentLVAdapter
 import com.dami.lifestyle.comment.CommentModel
 import com.dami.lifestyle.contentsList.BookmarkModel
@@ -39,37 +40,25 @@ class BoardInsideActivity : AppCompatActivity() {
     private lateinit var binding: ActivityBoardInsideBinding
     private lateinit var key: String
 
-    private var commentkeyList = mutableListOf<String>()
+
 
     private var  boardmarkIdList = mutableListOf<String>() //보드마트 키 값들
     var User: String? = null
     //글쓴 사람과 현재 uid 비교
-
     var WriterUid: String? = null
     var commentkey: String?=null
     private var commentDataList = mutableListOf<CommentModel>()
     private lateinit var CommentLVAdapter: CommentLVAdapter
 
+
     // 1. 키보드 InputMethodManager 변수 선언
-    var imm : InputMethodManager? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_inside)
 
-
-        //setContentView(R.layout.activity_board_inside)
-        /* val title = intent.getStringExtra("title").toString()
-        val content = intent.getStringExtra("content").toString()
-        val time = intent.getStringExtra("time").toString()
-        Log.d("택1", title)
-        Log.d("택1", content)
-        Log.d("택1", time)
-        binding.titleArea.text = title
-        binding.contentArea.text = content
-        binding.timeArea.text = time
-*/
 
 
         key = intent.getStringExtra("key").toString()
@@ -261,43 +250,23 @@ if(po.contains(currentuser.toString())) {
         }
     }
 
-/*    fun getCommentData(key: String) {
-//comment 아래 board아래 commentkey 아래 comment 데이터들
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                commentDataList.clear()
-                for (dataModel in dataSnapshot.children) {
-                    val item = dataModel.getValue(CommentModel::class.java)
-                    commentDataList.add(item!!)
-                }
-                CommentLVAdapter.notifyDataSetChanged()//어댑터 동기화
-            }
-            override fun onCancelled(databaseError: DatabaseError) {
-            }
-        }
-        FBRef.commentRef.child(key).addValueEventListener(postListener)
-    }*/
+
 
     //대댓글
     fun getReCommentData(key: String) {
 //comment 아래 board아래 commentkey 아래 comment 데이터들
-
-
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 commentDataList.clear()
-
                 for (dataModel in dataSnapshot.children) {
                     val item = dataModel.getValue(CommentModel::class.java)
 
                     commentDataList.add(item!!)
 
                     for(j in dataModel.children){
-
                         if(j.value.toString().contains("commentTitle=")){
                             val item2 = j.getValue(CommentModel::class.java)
                             commentDataList.add(item2!!)
-
                         }
                     }
 
@@ -310,6 +279,7 @@ if(po.contains(currentuser.toString())) {
         FBRef.commentRef.child(key).addValueEventListener(postListener)
     }
 
+    //댓글 작성하기
     fun InsertComment(key: String) {
         //comment
         // - boardKey 아이디
@@ -329,10 +299,47 @@ if(po.contains(currentuser.toString())) {
                 )
             Toast.makeText(this, "댓글이 작성되었습니다.", Toast.LENGTH_SHORT).show()
             binding.commentArea.setText("")
-
+            InsertboardWriter(key, user!!.kakaoAccount?.email.toString()) //key와 보내는사람
 
         }
 
+    }
+
+    //댓글의 보드사용자의 email firebase 넣기
+    //댓글 작성하기
+    fun InsertboardWriter(key: String, sender:String) {
+        var receiver: String? = null
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                for (dataModel in dataSnapshot.children) {
+                    Log.d("receiver",dataModel.getValue(BoardModel::class.java)!!.user)
+                    Log.d("sender", sender.toString())
+                    Log.d("key",key)
+                    Log.d("dataModel.toString()",dataModel.key.toString())
+
+                    if (dataModel.key.toString() == key) {
+                        receiver = dataModel.getValue(BoardModel::class.java)!!.user
+                        UserApiClient.instance.me { user, error ->
+                            FBRef.alarmRef
+                                .child(user!!.id.toString())
+                                .push()
+                                .setValue(
+                                    AlarmModel(
+                                        KakaoAuth.getTime(),
+                                        sender,//보내는 사람
+                                        receiver.toString()
+                                    )
+                                )
+                        }
+                    }
+
+                }
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+            }
+        }
+        FBRef.boardRef.addValueEventListener(postListener)
     }
 
 
