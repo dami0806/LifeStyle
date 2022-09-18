@@ -1,5 +1,6 @@
 package com.dami.lifestyle.board
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
@@ -58,7 +60,7 @@ class BoardInsideActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_inside)
 
 
@@ -188,7 +190,11 @@ class BoardInsideActivity : AppCompatActivity() {
     dlg.setMessage("대댓글을 작성하겠습니까?")
     dlg.setIcon(R.drawable.img_1)
     dlg.setNegativeButton("확인") { dialog, which ->
+        //입력모드
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
 
+        //키보드 열기
+        showKeyboard(commentArea)
 
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -196,12 +202,6 @@ class BoardInsideActivity : AppCompatActivity() {
                     if (po.equals(dataModel.getValue(CommentModel::class.java).toString())){
                         commentkey = dataModel.key.toString()
                         binding.commentArea.setHint("대댓글을 작성하세요")
-                        binding.commentBtn.setOnClickListener {
-                            //댓글 입력
-                            InsertReply(key, commentkey.toString())
-                            getReCommentData(key)
-                        }  //댓글 출력
-
 
                         CommentLVAdapter = CommentLVAdapter(commentDataList)
                         binding.commentLV.adapter = CommentLVAdapter
@@ -234,6 +234,28 @@ class BoardInsideActivity : AppCompatActivity() {
             }
 
         }//binding
+    }
+    //키보드 숨기기
+    private fun hideKeyboard(editText: EditText){
+
+        val manager: InputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        //키보드 숨김
+        manager.hideSoftInputFromWindow(commentArea.applicationWindowToken, 0)
+    }
+
+    //키보드 보여주기
+    private fun showKeyboard(editText: EditText){
+
+        val manager: InputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        //키보드 보여주기
+        manager.showSoftInput(commentArea.rootView, InputMethodManager.SHOW_IMPLICIT)
+
+        //포커스 지정
+        commentArea.requestFocus()
     }
 
     fun InsertReply(key: String,commentkey:String) {
@@ -311,6 +333,7 @@ class BoardInsideActivity : AppCompatActivity() {
                 )
             Toast.makeText(this, "댓글이 작성되었습니다.", Toast.LENGTH_SHORT).show()
             binding.commentArea.setText("")
+            hideKeyboard(commentArea)
             InsertboardWriter(key, user!!.kakaoAccount?.email.toString()) //key와 보내는사람
 
         }
