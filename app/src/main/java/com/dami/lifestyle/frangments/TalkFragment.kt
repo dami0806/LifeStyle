@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
 import com.dami.lifestyle.FBRef
 import com.dami.lifestyle.R
+import com.dami.lifestyle.alarm.AlarmActivity
 import com.dami.lifestyle.board.BoardInsideActivity
 import com.dami.lifestyle.board.BoardListAdapter
 import com.dami.lifestyle.board.BoardModel
@@ -65,6 +66,12 @@ class TalkFragment : Fragment() {
             mystoryintent.putExtra("key",boardKeyList[position])
             mystoryintent.putStringArrayListExtra("mystorylistkey",boardKeyList)
             //startActivity(mystoryintent)
+
+
+            val alarmintent = Intent(context, AlarmActivity::class.java)
+            alarmintent.putExtra("key",boardKeyList[position])
+            alarmintent.putStringArrayListExtra("alarmintentlistkey",boardKeyList)
+
         }
         //home
         binding.hometap.setOnClickListener{
