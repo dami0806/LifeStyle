@@ -23,6 +23,7 @@ import com.dami.lifestyle.R
 import com.dami.lifestyle.alarm.AlarmModel
 import com.dami.lifestyle.comment.CommentLVAdapter
 import com.dami.lifestyle.comment.CommentModel
+import com.dami.lifestyle.comment.ReCommentAdapter
 import com.dami.lifestyle.contentsList.BookmarkModel
 import com.dami.lifestyle.databinding.ActivityBoardInsideBinding
 import com.google.android.gms.tasks.OnCompleteListener
@@ -47,9 +48,10 @@ class BoardInsideActivity : AppCompatActivity() {
     //글쓴 사람과 현재 uid 비교
     var WriterUid: String? = null
     var commentkey: String?=null
+
     private var commentDataList = mutableListOf<CommentModel>()
     private lateinit var CommentLVAdapter: CommentLVAdapter
-
+    private lateinit var ReCommentAdapter: ReCommentAdapter
 
     // 1. 키보드 InputMethodManager 변수 선언
 
@@ -240,6 +242,7 @@ class BoardInsideActivity : AppCompatActivity() {
         // - CommentKey
         // - CommentData
         // - CommentData
+
         UserApiClient.instance.me { user, error ->
             FBRef.commentRef
                 .child(key)
@@ -273,6 +276,7 @@ class BoardInsideActivity : AppCompatActivity() {
 
                     for(j in dataModel.children){
                         if(j.value.toString().contains("commentTitle=")){
+
                             val item2 = j.getValue(CommentModel::class.java)
                             commentDataList.add(item2!!)
                         }

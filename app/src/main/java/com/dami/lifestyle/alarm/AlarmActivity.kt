@@ -68,8 +68,9 @@ class AlarmActivity : AppCompatActivity() {
                                 if (currentUserEmail.equals(receiver)&& !sender.equals(receiver)) {
                                     items.add(item!!)
                                     getboard(board.toString())
-                                    AlarmListAdapter.notifyDataSetChanged()//어댑터 동기화
+
                                 }
+                                AlarmListAdapter.notifyDataSetChanged()//어댑터 동기화
                             }
 
                     }
