@@ -1,17 +1,84 @@
 package com.dami.lifestyle.comment
 
-import android.app.AlertDialog
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dami.lifestyle.R
+import com.firebase.ui.auth.data.model.User
 import com.kakao.sdk.user.UserApiClient
-import kotlin.coroutines.coroutineContext
 
-class CommentLVAdapter(val commentList : MutableList<CommentModel>): BaseAdapter() {
+class CommentLVAdapter(val commentList : MutableList<CommentModel>):RecyclerView.Adapter<CommentLVAdapter.ViewHolder>(){
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentLVAdapter.ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.boardcomment_item,parent,false)
+        return ViewHolder(view)
+    }
+    interface ItemClick{
+        fun onClick(view:View, position: Int)
+    }
+    var itemClick:ItemClick?=null
+
+    override fun onBindViewHolder(holder: CommentLVAdapter.ViewHolder, position: Int) {
+       if(itemClick !=null){
+           holder.itemView.setOnClickListener { v->
+               itemClick?.onClick(v,position)
+           }
+
+       }
+        holder.bindItems(commentList[position])
+    }
+
+    override fun getItemCount(): Int {
+        return commentList.size
+    }
+
+    inner class ViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
+        fun bindItems(item: CommentModel){
+
+            val title = itemView.findViewById<TextView>(R.id.title)
+            title!!.text =item.commentTitle
+
+
+            val time = itemView.findViewById<TextView>(R.id.time)
+            time!!.text = item.commentTime
+
+            //댓글
+            UserApiClient.instance.me { user, error ->
+                 var User = user!!.kakaoAccount!!.email //현재접속자
+                val commentSetting = itemView.findViewById<ImageView>(R.id.commentSetting)
+
+                if (item.commentUser.toString().equals(User.toString())) {
+                    commentSetting!!.visibility = View.VISIBLE
+
+                }
+                else{
+                    commentSetting!!.visibility = View.GONE
+                }
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/*BaseAdapter() {
     override fun getCount(): Int {
         return commentList.size
     }
@@ -60,36 +127,13 @@ class CommentLVAdapter(val commentList : MutableList<CommentModel>): BaseAdapter
         }
 
 
-        //댓글 수정 삭제
 
-
-    /*    val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
-        val mBuilder = AlertDialog.Builder(this)
-            .setView(mDialogView)
-            .setTitle("게시글 수정/삭제")
-
-        val alertDialog = mBuilder.show()
-        alertDialog.findViewById<Button>(R.id.editBtn)?.setOnClickListener {
-            Toast.makeText(this, "수정 버튼을 눌렀습니다", Toast.LENGTH_LONG).show()
-
-            val intent = Intent(this, BoardEditActivity::class.java)
-            intent.putExtra("key",key)
-            startActivity(intent)
-        }
-
-        alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener {
-
-            FBRef.boardRef.child(key).removeValue()
-            Toast.makeText(this, "삭제완료", Toast.LENGTH_LONG).show()
-            finish()
-
-        }*/
 
             return convertview!!
         }
 
 
 
-}
+}*/
 
 
