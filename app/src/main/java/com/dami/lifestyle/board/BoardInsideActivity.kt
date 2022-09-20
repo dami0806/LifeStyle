@@ -19,6 +19,7 @@ import androidx.core.view.get
 import androidx.core.view.isInvisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.dami.lifestyle.FBRef
 import com.dami.lifestyle.KakaoAuth
@@ -121,11 +122,11 @@ class BoardInsideActivity : AppCompatActivity() {
             override fun onClick(view: View, position: Int) {
                 UserApiClient.instance.me { user, error ->
                     val currentuser = user!!.kakaoAccount!!.email
-                    val po = commentLV.adapter!!.getItemId(position)!!.toString()
+                    val po = commentLV.adapter!!.getItem(position,commentDataList)
                     Log.d("currentuser",currentuser.toString())
                     Log.d("currentuser",po.toString())
 
-                    if (po.contains(currentuser.toString())) {
+                    if (po.toString().contains(currentuser.toString())) {
                         var dlg = AlertDialog.Builder(this@BoardInsideActivity)
                         dlg.setTitle("Good Life")
                         dlg.setMessage("댓글을 삭제하시겠습니까?")
@@ -137,13 +138,9 @@ class BoardInsideActivity : AppCompatActivity() {
                                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                                     for (dataModel in dataSnapshot.children) {
                                         Log.d("po1", po.toString())
-                                        Log.d(
-                                            "po11",
-                                            dataModel.getValue(CommentModel::class.java).toString()
+                                        Log.d("po11",dataModel.getValue(CommentModel::class.java).toString()
                                         )
-                                        if (po.equals(
-                                                dataModel.getValue(CommentModel::class.java).toString()
-                                            )
+                                        if (po.toString().equals(dataModel.getValue(CommentModel::class.java).toString())
                                         ) {
                                             FBRef.commentRef
                                                 .child(key)
@@ -154,11 +151,10 @@ class BoardInsideActivity : AppCompatActivity() {
                                         //대댓글 삭제하기
                                         for (i in dataModel.children) {
                                             Log.d("po12",po.toString())
-                                            Log.d("po1122",i.getValue(CommentModel::class.java).toString())
+
                                             if (i.value.toString().contains("commentTitle=")) {
-                                                if (po.equals(
-                                                        i.getValue(CommentModel::class.java).toString()
-                                                    )
+                                                Log.d("po1122",i.getValue(CommentModel::class.java).toString())
+                                                if (po.equals(i.getValue(CommentModel::class.java).toString())
                                                 ) {
                                                     FBRef.commentRef
                                                         .child(key)
@@ -665,7 +661,13 @@ UserApiClient.instance.me { user, error ->
 
 
 
+
 }
+
+private fun <VH : RecyclerView.ViewHolder?> RecyclerView.Adapter<VH>.getItem(position: Int, commentList: MutableList<CommentModel>): Any {
+    return commentList.get(position)
+}
+
 
 
 

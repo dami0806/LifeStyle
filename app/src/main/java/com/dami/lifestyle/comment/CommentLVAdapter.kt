@@ -19,7 +19,9 @@ class CommentLVAdapter(val commentList : MutableList<CommentModel>):RecyclerView
     }
     interface ItemClick{
         fun onClick(view:View, position: Int)
+
     }
+
     var itemClick:ItemClick?=null
 
     override fun onBindViewHolder(holder: CommentLVAdapter.ViewHolder, position: Int) {
@@ -27,6 +29,7 @@ class CommentLVAdapter(val commentList : MutableList<CommentModel>):RecyclerView
            holder.itemView.setOnClickListener { v->
                itemClick?.onClick(v,position)
            }
+
 
        }
         holder.bindItems(commentList[position])
@@ -36,8 +39,14 @@ class CommentLVAdapter(val commentList : MutableList<CommentModel>):RecyclerView
         return commentList.size
     }
 
+
+
+
     inner class ViewHolder(itemView:View):RecyclerView.ViewHolder(itemView) {
         fun bindItems(item: CommentModel){
+
+            val user = itemView.findViewById<TextView>(R.id.user)
+            user!!.text=item.commentUser
 
             val title = itemView.findViewById<TextView>(R.id.title)
             title!!.text =item.commentTitle
@@ -64,6 +73,9 @@ class CommentLVAdapter(val commentList : MutableList<CommentModel>):RecyclerView
         }
 
     }
+
+
+
 
 }
 
